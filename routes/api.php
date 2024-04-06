@@ -39,6 +39,12 @@ Route::delete('/delete-user/{id}',[UserController::class,'destroy']);
 
 // ---------------------------- Orders ----------------------------
 Route::get('/orders-list',[OrderController::class,'index']);
+Route::post('/make-order',[OrderController::class,'store']);
+Route::get('/details-order/{id}',[OrderController::class,'show']);
+Route::delete('/delete-order/{id}',[OrderController::class,'destroy']);
+
+// ---------------------------- Orders ----------------------------
+
  
 
 // ---------------------------- Auth ----------------------------

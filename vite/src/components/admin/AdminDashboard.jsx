@@ -159,7 +159,7 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="container mt-24 ml-10 max-w-full px-4 py-8">
+    <div className="container max-w-full px-4 py-8">
       {loading && (
         <div className="flex flex-col justify-center items-center mt-6">
           <i className="fa fa-cog fa-spin fa-3x fa-fw mb-2"></i>
