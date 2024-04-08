@@ -19,8 +19,8 @@ import NavAdmin from "./components/admin/NavAdmin";
 import Details from "./components/admin/Details";
 import NotFound from "./NotFound";
 import UsersDashboard from "./components/admin/UsersDashboard";
-import OrdersDashboard from "./components/admin/OrdersDashboard";
 import Order from "./components/Order";
+import OrdersDashboard from "./components/admin/orders/OrdersDashboard";
 
 axios.defaults.xsrfCookieName = "XSRF-TOKEN";
 axios.defaults.xsrfHeaderName = "X-XSRF-TOKEN";

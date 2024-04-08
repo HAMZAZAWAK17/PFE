@@ -4,7 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 const Order = () => {
-    const { id } = useParams();
+    const { id: petId } = useParams();
     const [animal, setAnimal] = useState({
         nom: "",
         photo: "",
@@ -14,56 +14,69 @@ const Order = () => {
         age: 0,
         sante: "",
     });
-    const [showPopup, setShowPopup] = useState(false);
-    const [formData, setFormData] = useState({
-        nom: "",
+    const [userDetails, setUserDetails] = useState({
+        id: null,
+        name: "",
         email: "",
-        telephone: "",
-        message: "",
+        email_verified_at: null,
+        admin: null,
+        created_at: null,
+        updated_at: null,
     });
+    const [userId, setUserId] = useState(0);
+
+    const fetchUserDetails = async () => {
+        try {
+            const token = localStorage.getItem("token");
+
+            if (!token) {
+                navigate("/login");
+                return;
+            }
+
+            const response = await axios.get(
+                "http://127.0.0.1:8000/api/user-detail",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            setUserDetails(response.data);
+            setUserId(response.data.id);
+            console.log(userDetails.id);
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Authentication Failed",
+                    text: "Please log in again.",
+                }).then(() => {
+                    navigate("/");
+                });
+            } else {
+                console.error("Error fetching user details:", error);
+            }
+        }
+    };
 
     useEffect(() => {
+        fetchUserDetails();
         axios
-            .get(`http://localhost:8000/api/details-pets/${id}`)
+            .get(`http://localhost:8000/api/details-pets/${petId}`)
             .then((response) => {
                 setAnimal(response.data.pet);
             })
             .catch((error) => {
                 console.error("Error fetching pet:", error);
             });
-    }, [id]);
-
-    const [showForm, setShowForm] = useState(false);
-
-    const handleConfirmAdoption = () => {
-        setShowPopup(true);
-        setShowForm(true); // Activer l'affichage du formulaire
-    };
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Vérifier si tous les champs requis sont remplis
-        // if (
-        //     !formData.nom ||
-        //     !formData.email ||
-        //     !formData.telephone ||
-        //     !formData.message
-        // ) {
-        //     // Afficher un SweetAlert d'erreur
-        //     Swal.fire({
-        //         icon: "error",
-        //         title: "Erreur",
-        //         text: "Veuillez remplir tous les champs du formulaire.",
-        //     });
-        //     return; // Arrêter l'exécution de la fonction si des champs sont manquants
-        // }
+        const data = { pet_id: petId, user_id:userId };
         axios
-            .post("http://localhost:8000/make-order", formData)
+            .post("http://localhost:8000/api/make-order", data)
             .then((response) => {
                 console.log(response.data);
                 Swal.fire({
@@ -80,18 +93,6 @@ const Order = () => {
                     text: "Une erreur s'est produite lors de la création de la commande.",
                 });
             });
-        console.log(formData);
-        setFormData({
-            nom: "",
-            email: "",
-            telephone: "",
-            message: "",
-        });
-        setShowPopup(false);
-    };
-
-    const handleCancel = () => {
-        setShowPopup(false); // Fermer la popup
     };
 
     return (
@@ -117,7 +118,7 @@ const Order = () => {
                                 />
                             </div>
                         </div>
-                        <div className="w-full md:w-5/6 lg:w-2/3 xl:w-1/2 mx-auto">
+                        <div className="w-full -mt-96 md:w-5/6 lg:w-2/3 xl:w-1/2 mx-auto">
                             <div className="rounded-xl bg-white shadow-lg p-5">
                                 <h5 className="text-2xl text-amber-400 font-poppins font-bold md:text-3xl">
                                     {animal.nom}
@@ -147,7 +148,7 @@ const Order = () => {
                                 </p>
 
                                 <button
-                                    onClick={handleConfirmAdoption}
+                                    onClick={handleSubmit}
                                     className="bg-amber-400 rounded-xl py-3 px-6 mt-4 font-semibold hover:bg-slate-400 focus:scale-75 transition-all duration-250 ease-out"
                                 >
                                     Confirmer l'adoption
@@ -159,152 +160,6 @@ const Order = () => {
                     <p>Loading...</p>
                 )}
             </div>
-            {showPopup && (
-                <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 mt-10">
-                    <div
-                        className={`bg-white shadow-lg p-5 form-animation ${
-                            showForm ? "form-show" : ""
-                        }`}
-                    >
-                        <h2 className="text-xl font-bold mb-4">
-                            Formulaire d'adoption
-                        </h2>
-                        <form className="w-full max-w-lg">
-                            <div className="flex flex-wrap -mx-3 mb-6">
-                                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label
-                                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                        htmlFor="grid-first-name"
-                                    >
-                                        First Name
-                                    </label>
-                                    <input
-                                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                        id="grid-first-name"
-                                        type="text"
-                                        placeholder="Jane"
-                                        name="nom"
-                                        value={formData.nom}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
-                                <div className="w-full md:w-1/2 px-3">
-                                    <label
-                                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                        htmlFor="grid-last-name"
-                                    >
-                                        Last Name
-                                    </label>
-                                    <input
-                                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                        id="grid-last-name"
-                                        type="text"
-                                        placeholder="Doe"
-                                    />
-                                </div>
-                            </div>
-                            <div className="flex flex-wrap -mx-3 mb-6">
-                                <div className="w-full px-3">
-                                    <label
-                                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                        htmlFor="grid-password"
-                                    >
-                                        Phone number
-                                    </label>
-                                    <input
-                                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                        id="grid-tel"
-                                        type="tel"
-                                        placeholder="Your phone number"
-                                    />
-                                    <p className="text-gray-600 text-xs italic">
-                                        Please enter your current phone number
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex flex-wrap -mx-3 mb-2">
-                                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                    <label
-                                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                        htmlFor="grid-city"
-                                    >
-                                        City
-                                    </label>
-                                    <input
-                                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                        id="grid-city"
-                                        type="text"
-                                        placeholder="Albuquerque"
-                                    />
-                                </div>
-                                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                    <label
-                                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                        htmlFor="grid-state"
-                                    >
-                                        State
-                                    </label>
-                                    <div className="relative">
-                                        <select
-                                            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                            id="grid-state"
-                                        >
-                                            <option>Casablanca</option>
-                                            <option>Tanger</option>
-                                            <option>Rabat</option>
-                                        </select>
-                                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                            <svg
-                                                className="fill-current h-4 w-4"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                            >
-                                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                    <label
-                                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                        htmlFor="grid-zip"
-                                    >
-                                        Zip
-                                    </label>
-                                    <input
-                                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                        id="grid-zip"
-                                        type="text"
-                                        placeholder="90210"
-                                    />
-                                </div>
-                            </div>
-                        </form>
-
-                        <div className="flex justify-between mt-4">
-                            <button
-                                onClick={handleSubmit}
-                                className="bg-amber-400 rounded-xl py-3 px-6 font-semibold hover:bg-slate-400 focus:scale-75 transition-all duration-250 ease-out"
-                            >
-                                Adopt it
-                            </button>
-                            <button
-                                onClick={handleCancel}
-                                className="bg-gray-400 rounded-xl py-3 px-6 font-semibold hover:bg-gray-600 focus:scale-75 transition-all duration-250 ease-out"
-                            >
-                                Cancel
-                            </button>
-                        </div>
-
-                        <div className="flex flex-col items-center mt-4">
-                            <b>or</b>
-                            <b>Contactez-nous au:</b>
-                            <p>+1234567890</p>
-                            <p>+0987654321</p>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

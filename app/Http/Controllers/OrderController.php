@@ -47,8 +47,8 @@ class OrderController extends Controller
         $order->save();
 
         // Retrieve user and pet details
-        $user = User::select('name', 'email', 'telephone')->find($order->user_id);
-        $pet = pet::select('nom', 'sexe', 'age')->find($order->pet_id);
+        $user = User::select('name', 'email', 'telephone','adresse')->find($order->user_id);
+        $pet = pet::select('nom', 'sexe', 'age','photo','description','espece','sante')->find($order->pet_id);
 
         $data = [
             'order_id' => $order->id,
@@ -107,5 +107,39 @@ class OrderController extends Controller
         $order->delete();
 
         return response()->json(['message' => 'Order deleted successfully']);
+    }
+
+    public function acceptOrder($id)
+    {
+        // Find the order by ID
+        $order = Order::find($id);
+
+        // If the order doesn't exist, return a 404 response
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 404);
+        }
+
+        // Update the status of the user associated with the order to 'approved'
+        $order->user->update(['status' => 'approved']);
+
+        // Return a success message
+        return response()->json(['message' => 'Order accepted successfully']);
+    }
+
+    public function refuseOrder($id)
+    {
+        // Find the order by ID
+        $order = Order::find($id);
+
+        // If the order doesn't exist, return a 404 response
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 404);
+        }
+
+        // Update the visibility of the pet associated with the order to false
+        $order->pet->update(['visibility' => false]);
+
+        // Return a success message
+        return response()->json(['message' => 'Order refused successfully']);
     }
 }

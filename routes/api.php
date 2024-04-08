@@ -42,10 +42,11 @@ Route::get('/orders-list',[OrderController::class,'index']);
 Route::post('/make-order',[OrderController::class,'store']);
 Route::get('/details-order/{id}',[OrderController::class,'show']);
 Route::delete('/delete-order/{id}',[OrderController::class,'destroy']);
+Route::post('/accept-order/{id}',[OrderController::class,'acceptOrder']);
+Route::post('/refuse-order/{id}',[OrderController::class,'refuseOrder']);
 
-// ---------------------------- Orders ----------------------------
+// ---------------------------- Staff ----------------------------
 
- 
 
 // ---------------------------- Auth ----------------------------
 Route::post('/register', [AuthController::class, 'register']);

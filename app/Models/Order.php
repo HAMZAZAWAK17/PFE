@@ -9,6 +9,8 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $fillable=['status'];
+
     public function pet()
     {
         return $this->belongsTo(Pet::class);

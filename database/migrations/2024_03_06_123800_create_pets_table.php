@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('espece');
             $table->string('age');
             $table->string('sante');
+            $table->boolean('visibility')->default(true);
             $table->timestamps();
         });
     }

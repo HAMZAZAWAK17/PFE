@@ -35,7 +35,7 @@ const Navbar = () => {
         const fetchUserDetails = async () => {
             try {
                 if (!token) {
-                    navigate("/login");
+                    navigate("/");
                     return;
                 }
 
