@@ -20,6 +20,7 @@ const AdminDashboard = () => {
     updated_at: null,
   });
   const [admin, setAdmin] = useState(0);
+  const [selectedImage, setSelectedImage] = useState(null); // Nouvel état pour l'image agrandie
 
   const GetPets = async () => {
     try {
@@ -30,55 +31,6 @@ const AdminDashboard = () => {
       console.error(error);
     }
   };
-
-  // useEffect(() => {
-  //   const [userDetails, setUserDetails] = useState({
-  //     id: null,
-  //     name: "",
-  //     email: "",
-  //     email_verified_at: null,
-  //     admin: null,
-  //     created_at: null,
-  //     updated_at: null,
-  //   });
-  //   const [admin, setAdmin] = useState(0);
-
-  //     const fetchUserDetails = async () => {
-  //       try {
-  //         const token = localStorage.getItem("token");
-
-  //         if (!token) {
-  //           navigate("/login");
-  //           return;
-  //         }
-
-  //         const response = await axios.get(
-  //           "http://127.0.0.1:8000/api/user-detail",
-  //           {
-  //             headers: {
-  //               Authorization: `Bearer ${token}`,
-  //             },
-  //           }
-  //         );
-  //         setUserDetails(response.data);
-  //         setAdmin(response.data.admin);
-  //       } catch (error) {
-  //         if (error.response && error.response.status === 401) {
-  //           Swal.fire({
-  //             icon: "error",
-  //             title: "Authentication Failed",
-  //             text: "Please log in again.",
-  //           }).then(() => {
-  //             navigate("/");
-  //           });
-  //         } else {
-  //           console.error("Error fetching user details:", error);
-  //         }
-  //       }
-  //     };
-  //     fetchUserDetails();
-  //   GetPets();
-  // }, []);
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -118,7 +70,7 @@ const AdminDashboard = () => {
     };
 
     fetchUserDetails();
-    GetPets(); // Call GetPets after fetchUserDetails
+    GetPets();
   }, []);
 
   const deletePet = (id) => {
@@ -156,6 +108,16 @@ const AdminDashboard = () => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
+  };
+
+  // Fonction pour gérer le clic sur l'image et afficher l'image agrandie
+  const handleImageClick = (imageUrl) => {
+    setSelectedImage(imageUrl);
+  };
+
+  // Fonction pour fermer l'image agrandie
+  const closeImage = () => {
+    setSelectedImage(null);
   };
 
   return (
@@ -221,7 +183,14 @@ const AdminDashboard = () => {
                 .map((pet) => (
                   <tr key={pet.id}>
                     <td className="border px-4 py-2">{pet.nom}</td>
-                    <td className="border max-w-7 px-4 py-2">
+                    <td
+                      className="border max-w-7 px-4 py-2"
+                      onClick={() =>
+                        handleImageClick(
+                          `http://localhost:8000/storage/${pet.photo}`
+                        )
+                      }
+                    >
                       <img
                         src={`http://localhost:8000/storage/${pet.photo}`}
                         alt=""
@@ -256,6 +225,15 @@ const AdminDashboard = () => {
             <div className="flex flex-col justify-center items-center mt-6">
               <i className="fa fa-cog fa-spin fa-3x fa-fw mb-2"></i>
               <h3>Chargement...</h3>
+            </div>
+          )}
+          {/* Affichage de l'image agrandie */}
+          {selectedImage && (
+            <div
+              className="fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center bg-black bg-opacity-75"
+              onClick={closeImage}
+            >
+              <img src={selectedImage} alt="Enlarged" className="max-w-full max-h-full" />
             </div>
           )}
         </>

@@ -174,9 +174,7 @@ const UsersDashboard = () => {
                       >
                         Supprimer
                       </button>
-                      <button className="ml-4 bg-amber-500 hover:bg-orange-500 px-2 py-1 rounded text-white">
-                        {/* <Link to={`/admin/edit-pet/${user.id}`}>Modifier</Link> */}
-                      </button>
+                      
                       <button className="ml-4 bg-emerald-400 hover:bg-orange-500 px-2 py-1 rounded text-white">
                         <Link to={`/admin/details-pet/${user.id}`}>
                           Détails

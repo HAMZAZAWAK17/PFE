@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 const Order = () => {
     const { id: petId } = useParams();
+    const navigate = useNavigate(); // Utilisation de useNavigate pour obtenir la fonction de navigation
+
     const [animal, setAnimal] = useState({
         nom: "",
         photo: "",
@@ -74,7 +76,7 @@ const Order = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const data = { pet_id: petId, user_id:userId };
+        const data = { pet_id: petId, user_id: userId };
         axios
             .post("http://localhost:8000/api/make-order", data)
             .then((response) => {
@@ -83,6 +85,8 @@ const Order = () => {
                     icon: "success",
                     title: "Success",
                     text: "Commande créée avec succès.",
+                }).then(() => {
+                    navigate("/confirmation"); // Rediriger l'utilisateur vers la page de confirmation
                 });
             })
             .catch((error) => {

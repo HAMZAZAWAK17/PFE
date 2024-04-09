@@ -1,3 +1,5 @@
+//main.jsx
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -20,7 +22,10 @@ import Details from "./components/admin/Details";
 import NotFound from "./NotFound";
 import UsersDashboard from "./components/admin/UsersDashboard";
 import Order from "./components/Order";
+import SideBar from "./components/admin/SideBar";
 import OrdersDashboard from "./components/admin/orders/OrdersDashboard";
+import Confirmation from "./components/Confirmation";
+import SendMessage from "./components/SendMessage";
 
 axios.defaults.xsrfCookieName = "XSRF-TOKEN";
 axios.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
@@ -103,12 +108,21 @@ root.render(
                             </>
                         }
                     />
+
+                    <Route
+                        path="/sendmessage"
+                        element={
+                            <>
+                                <SendMessage />
+                            </>
+                        }
+                    />
                     {/* ------------------- ADMIN ------------------- */}
                     <Route
                         path="/admin-dashboard"
                         element={
                             <>
-                                <NavAdmin />
+                                <SideBar />
                                 <AdminDashboard />
                             </>
                         }
@@ -131,6 +145,7 @@ root.render(
                             </>
                         }
                     />
+
                     <Route
                         path="/admin/details-pet/:petId"
                         element={
@@ -145,7 +160,7 @@ root.render(
                         path="/admin/users-dashboard"
                         element={
                             <>
-                                <NavAdmin />
+                                <SideBar />
                                 <UsersDashboard />
                             </>
                         }
@@ -160,6 +175,17 @@ root.render(
                             </>
                         }
                     />
+
+                    <Route
+                        path="/confirmation"
+                        element={
+                            <>
+                                <Confirmation />
+                            </>
+                        }
+                    />
+
+                    <Route path="/SideBar" element={<SideBar />} />
 
                     {/* ------------------------------------------ */}
 
