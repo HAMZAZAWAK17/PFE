@@ -1,16 +1,37 @@
+import React, { useEffect, useRef } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import Typed from "typed.js";
 import hero1 from "./assets/hero1.png";
-// import background from "./assets/background.jpg";
 
 const Hero = () => {
+  const typedRef = useRef(null);
+
+  useEffect(() => {
+    AOS.init({ duration: 1000 }); // Initialise AOS avec une durée de 1 seconde
+
+    const options = {
+      strings: ["Accueillez un nouveau membre dans votre famille."],
+      typeSpeed: 50, // Vitesse de frappe des caractères
+      backSpeed: 50, // Vitesse de suppression des caractères
+      loop: true // Boucler l'animation
+    };
+
+    // Initialise Typed.js avec les options
+    const typed = new Typed(typedRef.current, options);
+
+    // Nettoie l'animation lorsque le composant est démonté
+    return () => {
+      typed.destroy();
+    };
+  }, []);
+
   return (
-    <div
-      // style={{ backgroundImage: `url(${background})`, backgroundSize: "cover" }}
-      className=" flex"
-    >
+    <div className="flex">
       <div className="ml-28 w-96 mt-40">
         <h1 className="text-4xl text-slate-800 mb-8 font-bold select-none">
-          Accueillez un nouveau
-          <br /> membre dans votre famille.
+          Accueillez un nouveau <br /> membre dans votre famille.
+          <span ref={typedRef}></span>
         </h1>
         <p className="text-xl select-none">Adoptez votre compagnon</p>
         <div>
@@ -22,7 +43,7 @@ const Hero = () => {
           </a>
         </div>
       </div>
-      <div className="relative w-7/12 mr-12">
+      <div className="relative w-7/12 mr-12" data-aos="fade-left">
         <img className="absolute mt-44 z-0" src={hero1} alt="" />
       </div>
     </div>

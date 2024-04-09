@@ -49,7 +49,7 @@ const Login = () => {
         // if (admin === 1) {
         //   navigate("/admin-dashboard");
         // }
-        navigate("/");
+        navigate("/sidebar");
       });
     } catch (error) {
       if (error.response && error.response.status === 401) {

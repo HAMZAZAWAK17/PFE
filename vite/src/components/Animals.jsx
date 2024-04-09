@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const Animals = () => {
     const [animals, setAnimals] = useState([]);
@@ -33,15 +35,19 @@ const Animals = () => {
         }
     }, [animals, showMore]);
 
+    useEffect(() => {
+        AOS.init({ duration: 1000 }); // Initialise AOS avec une durée de 1 seconde
+    }, []);
+
     const toggleShowMore = () => {
         setShowMore((prevState) => !prevState);
     };
 
     return (
         <div>
-            <div className="justify-center mt-28">
+            <div className="justify-center mt-28" data-aos="fade-up">
                 <div className="text-center mb-2.5 text-3xl font-bold">
-                    <h3>Adoptable Animals</h3>
+                    <h3 className="text-amber-500">Adoptable Animals</h3>
                 </div>
                 <div className="text-center text-sm">
                     <p>Browse through our selection of featured animals.</p>
@@ -53,6 +59,7 @@ const Animals = () => {
                         <div
                             key={animal.id}
                             className="rounded-xl bg-white shadow-lg mt-12 ml-4"
+                            data-aos="fade-up"
                         >
                             <div className="p-5 flex flex-col">
                                 <div className="rounded-xl overflow-hidden max-h-64 max-w-80 drop-shadow-md">
