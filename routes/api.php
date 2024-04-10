@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StaffController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +47,11 @@ Route::post('/accept-order/{id}',[OrderController::class,'acceptOrder']);
 Route::post('/refuse-order/{id}',[OrderController::class,'refuseOrder']);
 
 // ---------------------------- Staff ----------------------------
+Route::get('/staff-list', [StaffController::class, 'index']);
+Route::post('/store-staff', [StaffController::class, 'store']);
+Route::get('/details-staff/{id}', [StaffController::class, 'show']);
+Route::put('/update-staff/{id}', [StaffController::class, 'update']);
+Route::delete('/delete-staff/{id}', [StaffController::class, 'destroy']);
 
 
 // ---------------------------- Auth ----------------------------

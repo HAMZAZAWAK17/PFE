@@ -11,7 +11,10 @@ const Hero = () => {
     AOS.init({ duration: 1000 }); // Initialise AOS avec une durée de 1 seconde
 
     const options = {
-      strings: ["Accueillez un nouveau membre dans votre famille."],
+      strings: [
+        "Accueillez un nouveau membre dans votre famille.",
+        "Adoptez votre compagnon"
+      ], // Utilisez la phrase comme première chaîne de caractères dans le tableau strings
       typeSpeed: 50, // Vitesse de frappe des caractères
       backSpeed: 50, // Vitesse de suppression des caractères
       loop: true // Boucler l'animation
@@ -30,7 +33,6 @@ const Hero = () => {
     <div className="flex">
       <div className="ml-28 w-96 mt-40">
         <h1 className="text-4xl text-slate-800 mb-8 font-bold select-none">
-          Accueillez un nouveau <br /> membre dans votre famille.
           <span ref={typedRef}></span>
         </h1>
         <p className="text-xl select-none">Adoptez votre compagnon</p>
@@ -39,7 +41,7 @@ const Hero = () => {
             href="#pets"
             className="bg-amber-400 rounded-2xl rounded-5 text-xl font-bold p-2.5 select-none"
           >
-            <button className="mt-4 ">Rencontrez nos animaux !!</button>
+            <button className="mt-4">Rencontrez nos animaux !!</button>
           </a>
         </div>
       </div>

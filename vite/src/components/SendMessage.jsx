@@ -1,3 +1,5 @@
+//SendMessage.jsx
+
 import React, { useRef } from 'react';
 import emailjs from '@emailjs/browser';
 import Swal from 'sweetalert2'; // Importez Swal depuis sweetalert
@@ -57,24 +59,24 @@ export const SendMessage = () => {
   };
 
   return (
-    <div className="container">
-      <div className="form-container">
+    <div className="cont">
+      <div className="form-cont">
         <div className="form">
           <span className="heading">Contactez nous</span>
           <form ref={form} onSubmit={sendEmail}>
             <input placeholder="Nom" type="text" name="user_name" className="input" />
             <input placeholder="Email" type="email" name="user_email" className="input" />
             <textarea placeholder="Message" rows="10" cols="30" name="message" className="textarea"></textarea>
-            <div className="button-container">
+            <div className="button-cont">
               <button type="submit" className="send-button">Envoyer</button>
-              <div className="reset-button-container">
+              <div className="reset-button-cont">
                 <button type="button" className="reset-button" onClick={handleCancel}>Annuler</button>
               </div>
             </div>
           </form>
         </div>
       </div>
-      <div className="image-container">
+      <div className="image-cont">
       <img
                 src={sendmessage}
                 alt="Confirmation"

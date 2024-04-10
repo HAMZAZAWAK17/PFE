@@ -16,7 +16,7 @@ const Animals = () => {
                 const response = await axios.get(
                     "http://localhost:8000/api/petlist"
                 );
-                setAnimals(response.data.pets); // Assurez-vous que la clé est correcte ici
+                setAnimals(response.data.pets);
             } catch (error) {
                 console.error("Error fetching animals:", error);
             }
@@ -36,7 +36,7 @@ const Animals = () => {
     }, [animals, showMore]);
 
     useEffect(() => {
-        AOS.init({ duration: 1000 }); // Initialise AOS avec une durée de 1 seconde
+        AOS.init({ duration: 1000 });
     }, []);
 
     const toggleShowMore = () => {
@@ -74,28 +74,23 @@ const Animals = () => {
                                 </h5>
 
                                 <p className="text-slate-800 font-poppins text-lg mt-3">
-                                    <b>Age:</b>
-                                    {animal.age}
+                                    <b>Age:</b> {animal.age}
                                 </p>
 
                                 <p className="text-slate-800 font-poppins text-lg mt-3">
-                                    <b>Espece:</b>
-                                    {animal.espece}
+                                    <b>Espece:</b> {animal.espece}
                                 </p>
 
                                 <p className="text-slate-800 font-poppins text-lg mt-3">
-                                    <b>Sexe:</b>
-                                    {animal.sexe}
+                                    <b>Sexe:</b> {animal.sexe}
                                 </p>
 
                                 <p className="text-slate-800 font-poppins text-lg mt-3">
-                                    <b>Santé:</b>
-                                    {animal.sante}
+                                    <b>Santé:</b> {animal.sante}
                                 </p>
 
-                                <p className="text-slate-800 font-poppins text-lg mt-3">
-                                    <b>Description:</b>
-                                    {animal.description.substring(0, 150)}...
+                                <p className="text-slate-800 font-poppins text-lg mt-3 description-wrap">
+                                    <b>Description:</b> {animal.description.substring(0, 40)}...
                                 </p>
                                 <a
                                     href={`/order/${animal.id}`}

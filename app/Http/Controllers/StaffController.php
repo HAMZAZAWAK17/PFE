@@ -12,7 +12,9 @@ class StaffController extends Controller
      */
     public function index()
     {
-        //
+        return response([
+            "staff" => Staff::all()
+        ]);
     }
 
     /**
@@ -34,32 +36,56 @@ class StaffController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Staff $staff)
+    public function show(string $id)
     {
-        //
+        return response()->json([
+            'staff' => Staff::find($id)
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Staff $staff)
+    public function edit(string $id)
     {
-        //
+        $staff = Staff::find($id);
+        return response()->json([
+            'staff' => $staff
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Staff $staff)
+    public function update(Request $request, string $id)
     {
-        //
+        $staff = Staff::find($id);
+
+        $request->validate([
+            'nom' => 'string|required',
+            'role' => 'string|required',
+            'email' => 'string|required',
+        ]);
+
+        $staff->update([
+            'nom' => $request->nom,
+            'role' => $request->role,
+            'email' => $request->email,
+        ]);
+
+        return response()->json([
+            'message' => 'Staff Updated Successfully!!'
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Staff $staff)
+    public function destroy(string $id)
     {
-        //
+        Staff::find($id)->delete();
+        return response()->json([
+            'message' => 'Staff Deleted Successfully!!'
+        ]);
     }
 }
