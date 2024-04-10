@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 ::-webkit-scrollbar {
-    width: 15px; /* Largeur de la barre de défilement */
+    width: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -230,7 +230,7 @@ button:focus-visible {
   color: #ffd401;
 }
 
-.form-container {
+.form-cont {
   max-width: 700px;
   margin: 30px;
   background-color: #001925;
@@ -247,7 +247,7 @@ button:focus-visible {
   margin-bottom: 20px;
 }
 
-.form-container .form .input {
+.form-cont .form .input {
   color: #87a4b6;
   width: 100%;
   background-color: #002733;
@@ -260,11 +260,11 @@ button:focus-visible {
   border-left: 1px solid transparent;
 }
 
-.form-container .form .input:focus {
+.form-cont .form .input:focus {
   border-left: 5px solid #ffd401;
 }
 
-.form-container .form .textarea {
+.form-cont .form .textarea {
   width: 100%;
   padding: 10px;
   border: none;
@@ -279,16 +279,16 @@ button:focus-visible {
   transition: all 0.2s ease-in-out;
 }
 
-.form-container .form .textarea:focus {
+.form-cont .form .textarea:focus {
   border-left: 5px solid #ffd401;
 }
 
-.form-container .form .button-container {
+.form-cont .form .button-cont {
   display: flex;
   gap: 10px;
 }
 
-.form-container .form .button-container .send-button {
+.form-cont .form .button-cont .send-button {
   flex-basis: 70%;
   background: #ffd401;
   padding: 10px;
@@ -299,18 +299,18 @@ button:focus-visible {
   transition: all 0.2s ease-in-out;
 }
 
-.form-container .form .button-container .send-button:hover {
+.form-cont .form .button-cont .send-button:hover {
   background: transparent;
   border: 1px solid #ffd401;
   color: #ffd401;
 }
 
-.form-container .form .button-container .reset-button-container {
+.form-cont .form .button-cont .reset-button-cont {
   filter: drop-shadow(1px 1px 0px #ffd401);
   flex-basis: 30%;
 }
 
-.form-container .form .button-container .reset-button-container .reset-button {
+.form-cont .form .button-cont .reset-button-cont .reset-button {
   position: relative;
   text-align: center;
   padding: 10px;
@@ -321,20 +321,20 @@ button:focus-visible {
   transition: all 0.2s ease-in-out;
 }
 
-.form-container .form .button-container .reset-button-container .reset-button:hover {
+.form-cont .form .button-cont .reset-button-cont .reset-button:hover {
   background: #ffd401;
   color: #001925;
 }
 
 
 
-.container {
+.cont {
   display: flex;
 }
 
 
 
-.image-container {
+.image-cont {
   flex: none; /* L'image n'occupera que l'espace nécessaire */
   margin-left: 20px; 
   margin-top: 30px;/* Ajoutez un espace entre le formulaire et l'image */
@@ -349,8 +349,3 @@ button:focus-visible {
   height: auto; /* Ajustez la hauteur en conséquence */
   
 }
-
-
-
-
-

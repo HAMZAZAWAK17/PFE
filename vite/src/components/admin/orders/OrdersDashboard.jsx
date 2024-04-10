@@ -1,7 +1,7 @@
-import { data } from "autoprefixer";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const OrdersDashboard = () => {
     const navigate = useNavigate();
@@ -26,7 +26,6 @@ const OrdersDashboard = () => {
             );
             setOrders(data.orders);
             setIsLoading(false);
-            // console.log(orders);
         } catch (err) {
             console.log(err);
         }
@@ -71,7 +70,44 @@ const OrdersDashboard = () => {
 
         fetchUserDetails();
         GetOrders();
-    });
+    }, []);
+
+    const AcceptOrder = (orderId) => {
+        axios
+            .put(`http://localhost:8000/api/accept-order/${orderId}`, {
+                status: "Accepté",
+            })
+            .then((response) => {
+                GetOrders();
+            })
+            .catch((error) => {
+                console.error("Error accepting order:", error);
+            });
+    };
+    const RefuseOrder = (orderId) => {
+        axios
+            .put(`http://localhost:8000/api/refuse-order/${orderId}`, {
+                status: "Refusé",
+            })
+            .then((response) => {
+                GetOrders();
+            })
+            .catch((error) => {
+                console.error("Error accepting order:", error);
+            });
+    };
+    const ResetStatus = (orderId) => {
+        axios
+            .put(`http://localhost:8000/api/reset-order/${orderId}`, {
+                status: "pending",
+            })
+            .then((response) => {
+                GetOrders();
+            })
+            .catch((error) => {
+                console.error("Error accepting order:", error);
+            });
+    };
 
     return (
         <div className="container max-w-full px-4 py-8">
@@ -110,7 +146,6 @@ const OrdersDashboard = () => {
                                     </td>
                                     <td className="border px-4 py-2">
                                         {order.user.email}
-                                        ...
                                     </td>
                                     <td className="border px-4 py-2">
                                         {order.user.telephone}
@@ -128,27 +163,61 @@ const OrdersDashboard = () => {
                                         />
                                     </td>
                                     <td className="border px-4 py-2">
-                                        <button className="ml-4 bg-amber-500 hover:bg-orange-500 px-2 py-1 rounded text-white">
-                                            <Link
-                                                to={`/admin/edit-pet/${order.pet.id}`}
-                                            >
-                                                Accepter
-                                            </Link>
-                                        </button>
-                                        <button className="ml-4 bg-red-600 hover:bg-red-900 px-2 py-1 rounded text-white">
-                                            <Link
-                                                to={`/admin/edit-pet/${order.pet.id}`}
-                                            >
-                                                Refuser
-                                            </Link>
-                                        </button>
-                                        <button className="ml-4 bg-emerald-400 hover:bg-green-700 px-2 py-1 rounded text-white">
-                                            <Link
-                                                to={`/admin/details-pet/${order.pet.id}`}
-                                            >
-                                                Détails
-                                            </Link>
-                                        </button>
+                                        {/* {console.log(
+                                            "Order Status:",
+                                            order.status
+                                        )} */}
+
+                                        {order.status === "pending" ? (
+                                            <>
+                                                <button
+                                                    className="ml-4 bg-amber-500 hover:bg-orange-500 px-2 py-1 rounded text-white"
+                                                    onClick={() =>
+                                                        AcceptOrder(order.id)
+                                                    }
+                                                >
+                                                    Accepter
+                                                </button>
+                                                <button
+                                                    className="ml-4 bg-red-600 hover:bg-red-900 px-2 py-1 rounded text-white"
+                                                    onClick={() =>
+                                                        RefuseOrder(order.id)
+                                                    }
+                                                >
+                                                    Refuser
+                                                </button>
+                                                <button className="ml-4 bg-emerald-400 hover:bg-green-700 px-2 py-1 rounded text-white">
+                                                    <Link
+                                                        to={`/admin/details-pet/${order.pet.id}`}
+                                                    >
+                                                        Détails
+                                                    </Link>
+                                                </button>
+                                            </>
+                                        ) : (
+                                            <div className="flex">
+                                                <h3
+                                                    className={`ml-4 px-2 py-1 rounded`}
+                                                >
+                                                    {order.status}
+                                                </h3>
+                                                <button
+                                                    className="ml-4 bg-amber-500 hover:bg-orange-500 px-2 py-1 rounded text-white"
+                                                    onClick={() =>
+                                                        ResetStatus(order.id)
+                                                    }
+                                                >
+                                                    Initializer
+                                                </button>
+                                                <button className="ml-4 bg-emerald-400 hover:bg-green-700 px-2 py-1 rounded text-white">
+                                                    <Link
+                                                        to={`/admin/details-pet/${order.pet.id}`}
+                                                    >
+                                                        Détails
+                                                    </Link>
+                                                </button>
+                                            </div>
+                                        )}
                                     </td>
                                 </tr>
                             ))}

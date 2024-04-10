@@ -26,6 +26,8 @@ import SideBar from "./components/admin/SideBar";
 import OrdersDashboard from "./components/admin/orders/OrdersDashboard";
 import Confirmation from "./components/Confirmation";
 import SendMessage from "./components/SendMessage";
+import TeamDashboard from "./components/admin/Team/TeamDashboard";
+import AddMember from "./components/admin/Team/AddMember";
 
 axios.defaults.xsrfCookieName = "XSRF-TOKEN";
 axios.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
@@ -46,7 +48,7 @@ root.render(
                         }
                     />
                     <Route
-                        path="/register"
+                        path="/signup"
                         element={
                             <>
                                 <Navbar />
@@ -172,6 +174,26 @@ root.render(
                             <>
                                 <NavAdmin />
                                 <OrdersDashboard />
+                            </>
+                        }
+                    />
+
+                    <Route
+                        path="/admin/team-dashboard"
+                        element={
+                            <>
+                                <NavAdmin />
+                                <TeamDashboard />
+                            </>
+                        }
+                    />
+
+                    <Route
+                        path="/admin/add-member"
+                        element={
+                            <>
+                                <NavAdmin />
+                                <AddMember />
                             </>
                         }
                     />

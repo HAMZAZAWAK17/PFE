@@ -21,10 +21,11 @@ class OrderController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+    // public function filterOrders()
+    // {
+    //     $orders = Order::whereIn('status',['pending','Refusé'])->get();
+    //     return response()->json(['orders' => $orders]);
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -35,12 +36,14 @@ class OrderController extends Controller
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'pet_id' => 'required|exists:pets,id',
+            'status'
         ]);
 
         // Create a new order
         $order = new Order();
         $order->user_id = $request->input('user_id');
         $order->pet_id = $request->input('pet_id');
+        // $order->status = $request->status;
         // You can add more fields as per your requirement
 
         // Save the order
@@ -52,6 +55,7 @@ class OrderController extends Controller
 
         $data = [
             'order_id' => $order->id,
+            'order' => $order->status,
             'user' => $user,
             'pet' => $pet,
         ];
@@ -120,7 +124,8 @@ class OrderController extends Controller
         }
 
         // Update the status of the user associated with the order to 'approved'
-        $order->user->update(['status' => 'approved']);
+        $order->update(['status' => 'Accepté']);
+        $order->pet->update(['visibility' => false]);
 
         // Return a success message
         return response()->json(['message' => 'Order accepted successfully']);
@@ -137,9 +142,30 @@ class OrderController extends Controller
         }
 
         // Update the visibility of the pet associated with the order to false
-        $order->pet->update(['visibility' => false]);
+        // $order->pet->update(['visibility' => false]);
+        $order->update(['status' => 'Refusé']);
+        $order->pet->update(['visibility' => true]);
 
         // Return a success message
         return response()->json(['message' => 'Order refused successfully']);
     }
+
+    public function reset($id)
+    {
+        // Find the order by ID
+        $order = Order::find($id);
+
+        // If the order doesn't exist, return a 404 response
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 404);
+        }
+
+        // Update the visibility of the pet associated with the order to false
+        $order->pet->update(['visibility' => true]);
+        $order->update(['status' => 'pending']);
+
+        // Return a success message
+        return response()->json(['message' => 'Order reseted successfully']);
+    }
+    
 }

@@ -148,6 +148,7 @@ const UsersDashboard = () => {
                 <th className="border px-4 py-2">email</th>
                 <th className="border px-4 py-2">adresse</th>
                 <th className="border px-4 py-2">telephone</th>
+                <th className="border px-4 py-2">Actions</th>
               </tr>
             </thead>
 

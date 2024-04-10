@@ -122,7 +122,7 @@ const Order = () => {
                                 />
                             </div>
                         </div>
-                        <div className="w-full -mt-96 md:w-5/6 lg:w-2/3 xl:w-1/2 mx-auto">
+                        <div className="w-full mt-96 md:w-5/6 lg:w-2/3 xl:w-1/2 mx-auto">
                             <div className="rounded-xl bg-white shadow-lg p-5">
                                 <h5 className="text-2xl text-amber-400 font-poppins font-bold md:text-3xl">
                                     {animal.nom}

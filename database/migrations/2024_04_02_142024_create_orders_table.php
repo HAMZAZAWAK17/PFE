@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('pet_id');
             $table->string('status')->default('pending');
             $table->timestamps();
-            
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('pet_id')->references('id')->on('pets');
 

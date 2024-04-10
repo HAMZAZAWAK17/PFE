@@ -74,7 +74,7 @@ const Details = () => {
   }, [petId]);
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center h-screen mt-10">
       <div className="max-w-lg p-8 bg-gray-100 rounded-lg shadow-md">
         {data.photo && (
           <div>
@@ -84,10 +84,10 @@ const Details = () => {
         <div>
           <h2 className="font-bold text-3xl mt-4">{data.nom}</h2>
           <p className="mt-2">{data.description}</p>
-          <p>Sexe: {data.sexe}</p>
-          <p>Espece: {data.espece}</p>
-          <p>Age: {data.age}</p>
-          <p>Santé: {data.sante}</p>
+          <p><b>Sexe:</b> {data.sexe}</p>
+          <p><b>Espece:</b> {data.espece}</p>
+          <p><b>Age:</b> {data.age}</p>
+          <p><b>Santé:</b> {data.sante}</p>
         </div>
       </div>
       <Link

@@ -3,7 +3,10 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PetController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
+use App\Models\Order;
+use App\Models\pet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +34,7 @@ Route::get('/details-pets/{id}', [PetController::class, 'show']);
 Route::get('/edit-pet/{id}', [PetController::class, 'edit']);
 Route::put('/update-pet/{id}',[PetController::class,'update']);
 Route::delete('/delete-pet/{id}',[PetController::class,'destroy']);
+Route::get('/filter-pets',[PetController::class,'filterAnimals']);
 
 // ---------------------------- Users ----------------------------
 Route::get('/users-list',[UserController::class,'index']);
@@ -42,10 +46,15 @@ Route::get('/orders-list',[OrderController::class,'index']);
 Route::post('/make-order',[OrderController::class,'store']);
 Route::get('/details-order/{id}',[OrderController::class,'show']);
 Route::delete('/delete-order/{id}',[OrderController::class,'destroy']);
-Route::post('/accept-order/{id}',[OrderController::class,'acceptOrder']);
-Route::post('/refuse-order/{id}',[OrderController::class,'refuseOrder']);
+Route::put('/accept-order/{id}',[OrderController::class,'acceptOrder']);
+Route::put('/refuse-order/{id}',[OrderController::class,'refuseOrder']);
+Route::put('/reset-order/{id}',[OrderController::class,'reset']);
+// Route::get('/filter-orders',[OrderController::class,'filterOrders']);
 
-// ---------------------------- Staff ----------------------------
+// ---------------------------- Team ----------------------------
+Route::get('/team-list',[TeamController::class,'index']);
+Route::post('/add-member',[TeamController::class,'store']);
+Route::delete('/delete-member/{id}',[TeamController::class,'destroy']);
 
 
 // ---------------------------- Auth ----------------------------
