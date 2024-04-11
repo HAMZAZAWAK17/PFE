@@ -20,7 +20,7 @@ const AdminDashboard = () => {
     updated_at: null,
   });
   const [admin, setAdmin] = useState(0);
-  const [selectedImage, setSelectedImage] = useState(null); 
+  const [selectedImage, setSelectedImage] = useState(null); // Nouvel état pour l'image agrandie
 
   const GetPets = async () => {
     try {
@@ -30,11 +30,6 @@ const AdminDashboard = () => {
     } catch (error) {
       console.error(error);
     }
-  };
-
-  // Fonction pour compter le nombre d'animaux dans la liste
-  const countPets = () => {
-    return pets.length;
   };
 
   useEffect(() => {
@@ -133,7 +128,7 @@ const AdminDashboard = () => {
           <h3>Chargement...</h3>
         </div>
       )}
-      {userDetails && admin === 1 && ( // Vérifier les autorisations avant d'afficher le contenu
+      {userDetails && admin === 1 ? (
         <>
           <div className="flex">
             <h1 className="text-2xl font-bold mb-4">Gestion des animaux</h1>
@@ -163,10 +158,6 @@ const AdminDashboard = () => {
               Ajouter un animal
             </Link>
           </button>
-          <div className="bg-red-500 text-white p-4 rounded-md mb-4 mt-8">
-            <h2>Nombre d'animaux:</h2>
-            <p>{countPets()}</p>
-          </div>
           <table className="w-full border mt-6">
             <thead>
               <tr>
@@ -246,13 +237,16 @@ const AdminDashboard = () => {
             </div>
           )}
         </>
-      )}
-      {!loading && userDetails && admin !== 1 && ( // Vérifier les autorisations avant d'afficher le contenu
+      ) : (
         <>
-          <h1>You don't have access</h1>
-          <button>
-            <Link to={"/"}>return</Link>
-          </button>
+          {!loading && (
+            <>
+              <h1>You don't have access</h1>
+              <button>
+                <Link to={"/"}>return</Link>
+              </button>
+            </>
+          )}
         </>
       )}
     </div>
