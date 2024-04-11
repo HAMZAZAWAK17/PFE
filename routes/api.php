@@ -59,5 +59,5 @@ Route::delete('/delete-member/{id}',[TeamController::class,'destroy']);
 
 // ---------------------------- Auth ----------------------------
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);    
+Route::post('login', [AuthController::class, 'login']);
 Route::get('user-detail', [AuthController::class, 'userDetails']);

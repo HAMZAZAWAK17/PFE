@@ -30,6 +30,16 @@ const Navbar = () => {
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { openMenu, closeMenu, isMenuOpen } = useMenu();
+    const [userDetails, setUserDetails] = useState({
+        id: null,
+        name: "",
+        email: "",
+        email_verified_at: null,
+        admin: null,
+        created_at: null,
+        updated_at: null,
+    });
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -65,17 +75,6 @@ const Navbar = () => {
         };
         fetchUserDetails();
     }, []);
-
-    const { openMenu, closeMenu, isMenuOpen } = useMenu();
-    const [userDetails, setUserDetails] = useState({
-        id: null,
-        name: "",
-        email: "",
-        email_verified_at: null,
-        admin: null,
-        created_at: null,
-        updated_at: null,
-    });
 
     return (
         <header className="header font-poppins bg-slate-800 fixed top-0 left-0 w-full px-100 flex justify-between items-center z-10">
