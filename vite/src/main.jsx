@@ -26,8 +26,7 @@ import SideBar from "./components/admin/SideBar";
 import OrdersDashboard from "./components/admin/orders/OrdersDashboard";
 import Confirmation from "./components/Confirmation";
 import SendMessage from "./components/SendMessage";
-import StaffDashboard from "./components/admin/StaffDashboard";
-import AddStaff from "./components/admin/AddStaff";
+
 
 axios.defaults.xsrfCookieName = "XSRF-TOKEN";
 axios.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
@@ -129,15 +128,7 @@ root.render(
                         }
                     />
 
-                    <Route
-                        path="/admin/staff-dashboard"
-                        element={
-                            <>
-                                <SideBar />
-                                <StaffDashboard />
-                            </>
-                        }
-                    />
+                    
                     <Route
                         path="/admin/add-pet"
                         element={
@@ -147,15 +138,8 @@ root.render(
                             </>
                         }
                     />
-                     <Route
-                        path="/admin/add-staff"
-                        element={
-                            <>
-                                <NavAdmin />
-                                <AddStaff />
-                            </>
-                        }
-                    />
+                    
+                     
                     <Route
                         path="/admin/edit-pet/:petId"
                         element={
