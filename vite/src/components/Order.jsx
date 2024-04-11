@@ -1,5 +1,3 @@
-//Order.jsx
-
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -7,7 +5,7 @@ import Swal from "sweetalert2";
 
 const Order = () => {
     const { id: petId } = useParams();
-    const navigate = useNavigate(); // Utilisation de useNavigate pour obtenir la fonction de navigation
+    const navigate = useNavigate(); 
 
     const [animal, setAnimal] = useState({
         nom: "",

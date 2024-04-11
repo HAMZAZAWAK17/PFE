@@ -14,7 +14,7 @@ const Animals = () => {
         const fetchAllAnimals = async () => {
             try {
                 const response = await axios.get(
-                    "http://localhost:8000/api/petlist"
+                    "http://localhost:8000/api/filter-pets"
                 );
                 setAnimals(response.data.pets);
             } catch (error) {
@@ -94,9 +94,7 @@ const Animals = () => {
                                 </p>
                                 <a
                                     href={`/order/${animal.id}`}
-                                    className="text-center bg-amber-400 rounded-xl py-3 px-2 mt-4 
-                  font-semibold hover:bg-slate-400 focus:scale-75 
-                  transition-all duration-250 ease-out"
+                                    className="text-center bg-amber-400 rounded-xl py-3 px-2 mt-4 font-semibold hover:bg-slate-400 focus:scale-75 transition-all duration-250 ease-out"
                                 >
                                     Voir Details
                                 </a>

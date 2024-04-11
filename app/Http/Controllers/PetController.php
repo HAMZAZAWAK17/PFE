@@ -16,7 +16,13 @@ class PetController extends Controller
     {
         return response([
             "pets"=>pet::all()
-        ]) ;
+        ]);
+    }
+
+    public function filterAnimals()
+    {
+        $pets = pet::where('visibility', true)->get();
+        return response()->json(['pets' => $pets]);
     }
 
     /**

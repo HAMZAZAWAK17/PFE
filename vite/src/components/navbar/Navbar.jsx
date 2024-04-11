@@ -5,8 +5,7 @@ import { IoMdMenu } from "react-icons/io";
 import Register from "../Register";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Swal from 'sweetalert2';
-
+import Swal from "sweetalert2";
 
 export const navItems = [
     {
@@ -30,6 +29,17 @@ export const navItems = [
 const Navbar = () => {
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { openMenu, closeMenu, isMenuOpen } = useMenu();
+    const [userDetails, setUserDetails] = useState({
+        id: null,
+        name: "",
+        email: "",
+        email_verified_at: null,
+        admin: null,
+        created_at: null,
+        updated_at: null,
+    });
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -66,18 +76,6 @@ const Navbar = () => {
         fetchUserDetails();
     }, []);
 
-    const { openMenu, closeMenu, isMenuOpen } = useMenu();
-    const [userDetails, setUserDetails] = useState({
-        id: null,
-        name: "",
-        email: "",
-        email_verified_at: null,
-        admin: null,
-        created_at: null,
-        updated_at: null,
-    });
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
     return (
         <header className="header font-poppins bg-slate-800 fixed top-0 left-0 w-full px-100 flex justify-between items-center z-10">
             <Link
@@ -112,7 +110,7 @@ const Navbar = () => {
                 </div>
             ) : (
                 <div className="navbar-right mr-0 sm:flex hidden items-center justify-between">
-                    <Link to="/register">
+                    <Link to="/signup">
                         <button className="select-none bg-amber-400 hover:bg-white hover:text-black px-4 pt-2.5 pb-2.5 rounded-3xl mr-4 text-black font-500 text-14 py-7 px-15 rounded-5">
                             Register
                         </button>
