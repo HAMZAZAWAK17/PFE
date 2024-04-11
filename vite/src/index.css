@@ -349,3 +349,11 @@ button:focus-visible {
   height: auto; /* Ajustez la hauteur en conséquence */
   
 }
+
+.description-wrap {
+  word-wrap: break-word;
+}
+
+.ocard{
+  min-height: 100px;
+}

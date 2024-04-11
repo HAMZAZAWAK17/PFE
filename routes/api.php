@@ -57,6 +57,7 @@ Route::post('/add-member',[TeamController::class,'store']);
 Route::delete('/delete-member/{id}',[TeamController::class,'destroy']);
 
 
+
 // ---------------------------- Auth ----------------------------
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);

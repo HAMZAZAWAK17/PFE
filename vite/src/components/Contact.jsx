@@ -15,7 +15,7 @@ const Contact = () => {
   return (
     <div className="mt-24 ml-14 mb-10">
       <div className="mb-12" data-aos="fade-up" >
-        <h2 className="text-4xl font-semibold mb-2">Contactez-nous.</h2>
+        <h2 className="text-4xl font-semibold mb-2 text-amber-600">Contactez-nous.</h2>
         <p>Ouvert du Lundi au Samedi, 9h à 15h</p>
       </div>
       <div className="flex" data-aos="fade-right">

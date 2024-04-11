@@ -10,12 +10,16 @@ const Hero = () => {
     useEffect(() => {
         AOS.init({ duration: 1000 }); // Initialise AOS avec une durée de 1 seconde
 
-        const options = {
-            strings: ["Accueillez un nouveau membre dans votre famille."],
-            typeSpeed: 50, // Vitesse de frappe des caractères
-            backSpeed: 50, // Vitesse de suppression des caractères
-            loop: true, // Boucler l'animation
-        };
+    const options = {
+      strings: [
+        "Accueillez un nouveau membre dans votre famille.",
+        "Adoptez votre compagnon"
+      ], // Utilisez la phrase comme première chaîne de caractères dans le tableau strings
+      typeSpeed: 50, // Vitesse de frappe des caractères
+      backSpeed: 50, // Vitesse de suppression des caractères
+      loop: true // Boucler l'animation
+    };
+
 
         // Initialise Typed.js avec les options
         const typed = new Typed(typedRef.current, options);
@@ -25,6 +29,7 @@ const Hero = () => {
             typed.destroy();
         };
     }, []);
+
 
     return (
         <div className="flex">

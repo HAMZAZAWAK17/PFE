@@ -10,7 +10,7 @@ import { FaTiktok } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <div className="bg-slate-800 h-60">
+    <div className="bg-slate-800 h-60 mt-20">
       <div>
         <div className="flex">
           <div className="pl-14 py-20 w-60">

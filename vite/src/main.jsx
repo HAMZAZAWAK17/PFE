@@ -29,6 +29,7 @@ import SendMessage from "./components/SendMessage";
 import TeamDashboard from "./components/admin/Team/TeamDashboard";
 import AddMember from "./components/admin/Team/AddMember";
 
+
 axios.defaults.xsrfCookieName = "XSRF-TOKEN";
 axios.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
 
@@ -87,7 +88,6 @@ root.render(
                         path="/order/:id"
                         element={
                             <>
-                                <Navbar />
                                 <Order />
                             </>
                         }
@@ -129,6 +129,8 @@ root.render(
                             </>
                         }
                     />
+
+                    
                     <Route
                         path="/admin/add-pet"
                         element={
@@ -138,6 +140,8 @@ root.render(
                             </>
                         }
                     />
+                    
+                     
                     <Route
                         path="/admin/edit-pet/:petId"
                         element={

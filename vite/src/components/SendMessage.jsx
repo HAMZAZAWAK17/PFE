@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
-import emailjs from "@emailjs/browser";
-import Swal from "sweetalert2"; // Importez Swal depuis sweetalert
-import { useNavigate } from "react-router-dom"; // Importez useNavigate depuis react-router-dom
+import React, { useRef } from 'react';
+import emailjs from '@emailjs/browser';
+import Swal from 'sweetalert2';
+import { useNavigate } from "react-router-dom";
 import sendmessage from "./assets/sendmessage.png";
 
 export const SendMessage = () => {
@@ -105,7 +105,6 @@ export const SendMessage = () => {
                 />
             </div>
         </div>
-    );
 };
 
 export default SendMessage;

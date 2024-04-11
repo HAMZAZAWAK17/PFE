@@ -31,6 +31,10 @@ const UsersDashboard = () => {
     }
   };
 
+  const countUsers = () => {
+    return users.length;
+  };
+
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
@@ -140,6 +144,10 @@ const UsersDashboard = () => {
                 id=""
               />
             </span>
+          </div>
+          <div className="bg-blue-500 text-white p-4 mr-9 rounded-md mb-4">
+            <h2>Nombre d'utilisateurs:</h2>
+            <p>{countUsers()}</p>
           </div>
           <table className="w-full border mt-6">
             <thead>
