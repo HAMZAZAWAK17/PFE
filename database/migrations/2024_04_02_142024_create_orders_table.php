@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('pet_id');
             $table->string('status')->default('pending');
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('pet_id')->references('id')->on('pets');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('pet_id')->references('id')->on('pets')->onDelete('cascade');
 
         });
     }

@@ -24,7 +24,14 @@ const AdminDashboard = () => {
 
   const GetPets = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8000/api/petlist");
+      const token = localStorage.getItem("token");
+      const { data } = await axios.get("http://localhost:8000/api/petlist",
+      {
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      }
+    );
       setPets(data.pets);
       setIsLoading(false);
     } catch (error) {

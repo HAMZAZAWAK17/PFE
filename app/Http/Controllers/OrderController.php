@@ -19,15 +19,6 @@ class OrderController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    // public function filterOrders()
-    // {
-    //     $orders = Order::whereIn('status',['pending','Refusé'])->get();
-    //     return response()->json(['orders' => $orders]);
-    // }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)

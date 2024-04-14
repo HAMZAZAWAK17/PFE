@@ -56,7 +56,7 @@ class PetController extends Controller
         
         pet::create([
             'nom'=>$request->nom,
-            'photo'=>$filepath, // Assign the full file path
+            'photo'=>$filepath, 
             'description'=>$request->description,
             'sexe'=>$request->sexe,
             'espece'=>$request->espece,

@@ -5,8 +5,6 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
-use App\Models\Order;
-use App\Models\pet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,20 +19,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+Route::middleware(['auth:sanctum'])->group(function () {
     // return $request->user();
     return response()->json([ 'valid' => auth()->check() ]);
+    
 });
 
 
 // ---------------------------- Pets ----------------------------
 Route::get('/petlist',[PetController::class,'index']);
+Route::get('/filter-pets',[PetController::class,'filterAnimals']);
 Route::post('/store-pet',[PetController::class,'store']);
 Route::get('/details-pets/{id}', [PetController::class, 'show']);
 Route::get('/edit-pet/{id}', [PetController::class, 'edit']);
 Route::put('/update-pet/{id}',[PetController::class,'update']);
 Route::delete('/delete-pet/{id}',[PetController::class,'destroy']);
-Route::get('/filter-pets',[PetController::class,'filterAnimals']);
 
 // ---------------------------- Users ----------------------------
 Route::get('/users-list',[UserController::class,'index']);
@@ -49,16 +48,16 @@ Route::delete('/delete-order/{id}',[OrderController::class,'destroy']);
 Route::put('/accept-order/{id}',[OrderController::class,'acceptOrder']);
 Route::put('/refuse-order/{id}',[OrderController::class,'refuseOrder']);
 Route::put('/reset-order/{id}',[OrderController::class,'reset']);
-// Route::get('/filter-orders',[OrderController::class,'filterOrders']);
 
 // ---------------------------- Team ----------------------------
 Route::get('/team-list',[TeamController::class,'index']);
 Route::post('/add-member',[TeamController::class,'store']);
 Route::delete('/delete-member/{id}',[TeamController::class,'destroy']);
 
+// ---------------------------- Hotel ----------------------------
 
 
 // ---------------------------- Auth ----------------------------
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
-Route::get('user-detail', [AuthController::class, 'userDetails']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/user-detail', [AuthController::class, 'userDetails']);

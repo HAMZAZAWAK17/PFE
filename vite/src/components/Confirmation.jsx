@@ -11,14 +11,12 @@ const Confirmation = () => {
 
     return (
         <div className="flex h-screen justify-center items-center">
-            {/* Image de confirmation */}
             <img
                 src={confirme}
                 alt="Confirmation"
                 className="h-auto w-auto max-h-full max-w-full"
             />
 
-            {/* Bouton de retour */}
             <button className="Btn absolute top-4 left-4" onClick={handleReturn}>
                 <div className="sign">
                     <svg viewBox="0 0 512 512">

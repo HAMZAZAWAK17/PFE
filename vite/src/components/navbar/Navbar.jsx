@@ -58,16 +58,11 @@ const Navbar = () => {
                     }
                 );
                 setUserDetails(response.data);
-                setIsLoggedIn(true); // Set isLoggedIn to true only if the login is successful
+                setIsLoggedIn(true); 
             } catch (error) {
                 if (error.response && error.response.status === 401) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Authentication Failed",
-                        text: "Please log in again.",
-                    }).then(() => {
-                        navigate("/");
-                    });
+                    console.log(error)
+                    navigate("/");
                 } else {
                     console.error("Error fetching user details:", error);
                 }

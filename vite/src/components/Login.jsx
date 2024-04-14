@@ -5,138 +5,147 @@ import Swal from "sweetalert2";
 import signup from "./assets/signup.jpg";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const [validationErrors, setValidationErrors] = useState({});
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const [userDetails, setUserDetails] = useState({
-    id: null,
-    name: "",
-    email: "",
-    email_verified_at: null,
-    admin: null,
-    created_at: null,
-    updated_at: null,
-  });
-  const [admin, setAdmin] = useState(0);
+    const navigate = useNavigate();
+    const token = localStorage.getItem("token");
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/login",
-        formData
-      );
-
-      const token = response.data.authorisation.token;
-
-      localStorage.setItem("token", token);
-
-      Swal.fire({
-        icon: "success",
-        title: "Login Successful",
-        text: "Welcome back!",
-      }).then(() => {
-        // if (admin === 1) {
-        //   navigate("/admin-dashboard");
-        // }
-        navigate("/");
-      });
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        Swal.fire({
-          icon: "error",
-          title: "Login Failed",
-          text: "Invalid email or password. Please try again.",
-        });
-      } else {
-        const responseData = error.response.data;
-        setValidationErrors(responseData);
-        if (responseData) {
-          setValidationErrors(responseData);
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: responseData || "Login failed.",
-          });
+    useEffect(() => {
+        if (token) {
+            navigate("/");
         }
-      }
-    }
-  };
+    }, [token, navigate]);
 
-  return (
-    <div className="flex mt-36">
-      <div className="w-1/2 ml-20 mb-3">
-        <img src={signup} className="rounded-3xl" alt="" />
-      </div>
-      <form
-        onSubmit={handleSubmit}
-        className="bg-gradient-to-r from-neutral-900 to-sky-950 max-w-max min-w-96 shadow-md font-poppins rounded-3xl px-8 pt-6 pb-8 ml-20 mb-4"
-      >
-        <h2 className="text-white mb-4 text-4xl">Login</h2>
-        <div className="mb-4 mt-16">
-          <label
-            htmlFor="email"
-            className="block text-amber-400 text-sm font-bold mb-2"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Enter your email"
-            required
-          />
+    const [validationErrors, setValidationErrors] = useState({});
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+    });
+    const [userDetails, setUserDetails] = useState({
+        id: null,
+        name: "",
+        email: "",
+        email_verified_at: null,
+        admin: null,
+        created_at: null,
+        updated_at: null,
+    });
+    const [admin, setAdmin] = useState(0);
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(
+                "http://127.0.0.1:8000/api/login",
+                formData
+            );
+
+            const token = response.data.authorisation.token;
+
+            localStorage.setItem("token", token);
+
+            Swal.fire({
+                icon: "success",
+                title: "Login Successful",
+                text: "Welcome back!",
+            }).then(() => {
+                navigate("/");
+                return;
+            });
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Login Failed",
+                    text: "Invalid email or password. Please try again.",
+                });
+            } else {
+                const responseData = error.response.data;
+                setValidationErrors(responseData);
+                if (responseData) {
+                    setValidationErrors(responseData);
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: responseData || "Login failed.",
+                    });
+                }
+            }
+        }
+    };
+
+    return (
+        <div className="flex mt-36">
+            <div className="w-1/2 ml-20 mb-3">
+                <img src={signup} className="rounded-3xl" alt="" />
+            </div>
+            <form
+                onSubmit={handleSubmit}
+                className="bg-gradient-to-r from-neutral-900 to-sky-950 max-w-max min-w-96 shadow-md font-poppins rounded-3xl px-8 pt-6 pb-8 ml-20 mb-4"
+            >
+                <h2 className="text-white mb-4 text-4xl">Login</h2>
+                <div className="mb-4 mt-16">
+                    <label
+                        htmlFor="email"
+                        className="block text-amber-400 text-sm font-bold mb-2"
+                    >
+                        Email
+                    </label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Enter your email"
+                        required
+                    />
+                </div>
+                <div className="mb-6">
+                    <label
+                        htmlFor="password"
+                        className="block text-amber-400 text-sm font-bold mb-2"
+                    >
+                        Password
+                    </label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Enter your password"
+                        required
+                    />
+                </div>
+                <div className="flex items-center justify-between">
+                    <button
+                        type="submit"
+                        className="hover:bg-gray-50 bg-amber-400 duration-100 hover:px-5 hover:py-3 text-slate-950 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    >
+                        Log In
+                    </button>
+                </div>
+                <p className="mt-3 text-white">
+                    Don't have an account?{" "}
+                    <Link
+                        to="/signup"
+                        className="underline hover:text-amber-400"
+                    >
+                        Sign Up
+                    </Link>
+                </p>
+            </form>
         </div>
-        <div className="mb-6">
-          <label
-            htmlFor="password"
-            className="block text-amber-400 text-sm font-bold mb-2"
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Enter your password"
-            required
-          />
-        </div>
-        <div className="flex items-center justify-between">
-          <button
-            type="submit"
-            className="hover:bg-gray-50 bg-amber-400 duration-100 hover:px-5 hover:py-3 text-slate-950 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Log In
-          </button>
-        </div>
-        <p className="mt-3 text-white">
-          Don't have an account?{" "}
-          <Link to="/signup" className="underline hover:text-amber-400">
-            Sign Up
-          </Link>
-        </p>
-      </form>
-    </div>
-  );
+    );
 };
 
 export default Login;
