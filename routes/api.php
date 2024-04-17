@@ -3,9 +3,9 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PetController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware('verifyAuth')->group(function () {
     // return $request->user();
     return response()->json([ 'valid' => auth()->check() ]);
     
@@ -28,33 +28,45 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 // ---------------------------- Pets ----------------------------
 Route::get('/petlist',[PetController::class,'index']);
-Route::get('/filter-pets',[PetController::class,'filterAnimals']);
-Route::post('/store-pet',[PetController::class,'store']);
-Route::get('/details-pets/{id}', [PetController::class, 'show']);
 Route::get('/edit-pet/{id}', [PetController::class, 'edit']);
 Route::put('/update-pet/{id}',[PetController::class,'update']);
 Route::delete('/delete-pet/{id}',[PetController::class,'destroy']);
+Route::post('/store-pet',[PetController::class,'store']);
 
 // ---------------------------- Users ----------------------------
 Route::get('/users-list',[UserController::class,'index']);
 Route::get('/details-user/{id}', [UserController::class, 'show']);
 Route::delete('/delete-user/{id}',[UserController::class,'destroy']);
 
+// ---------------------------- Team ----------------------------
+Route::get('/team-list',[TeamController::class,'index']);
+Route::post('/add-member',[TeamController::class,'store']);
+Route::get('details-member/{id}',[TeamController::class,'show']);
+Route::delete('/delete-member/{id}',[TeamController::class,'destroy']);
+
 // ---------------------------- Orders ----------------------------
 Route::get('/orders-list',[OrderController::class,'index']);
-Route::post('/make-order',[OrderController::class,'store']);
-Route::get('/details-order/{id}',[OrderController::class,'show']);
 Route::delete('/delete-order/{id}',[OrderController::class,'destroy']);
 Route::put('/accept-order/{id}',[OrderController::class,'acceptOrder']);
 Route::put('/refuse-order/{id}',[OrderController::class,'refuseOrder']);
 Route::put('/reset-order/{id}',[OrderController::class,'reset']);
 
-// ---------------------------- Team ----------------------------
-Route::get('/team-list',[TeamController::class,'index']);
-Route::post('/add-member',[TeamController::class,'store']);
-Route::delete('/delete-member/{id}',[TeamController::class,'destroy']);
+// ---------------------------- Pets ----------------------------
+Route::get('/filter-pets',[PetController::class,'filterAnimals']);
+Route::get('/details-pets/{id}', [PetController::class, 'show']);
+
+
+// ---------------------------- Orders ----------------------------
+Route::post('/make-order',[OrderController::class,'store']);
+Route::get('/details-order/{id}',[OrderController::class,'show']);
+
+
 
 // ---------------------------- Hotel ----------------------------
+Route::get('/reservation-list',[ReservationController::class,'index']);
+Route::post('/make-reservation',[ReservationController::class,'store']);
+Route::get('/details-reservation/{id}',[ReservationController::class,'show']);
+Route::delete('/delete-reservation/{id}',[ReservationController::class,'destroy']);
 
 
 // ---------------------------- Auth ----------------------------

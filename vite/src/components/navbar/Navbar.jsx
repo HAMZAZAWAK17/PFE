@@ -44,10 +44,10 @@ const Navbar = () => {
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
-                if (!token) {
-                    navigate("/");
-                    return;
-                }
+                // if (!token) {
+                //     navigate("/");
+                //     return;
+                // }
 
                 const response = await axios.get(
                     "http://127.0.0.1:8000/api/user-detail",
@@ -58,14 +58,9 @@ const Navbar = () => {
                     }
                 );
                 setUserDetails(response.data);
-                setIsLoggedIn(true); 
+                // setIsLoggedIn(true);
             } catch (error) {
-                if (error.response && error.response.status === 401) {
-                    console.log(error)
-                    navigate("/");
-                } else {
-                    console.error("Error fetching user details:", error);
-                }
+                console.error("Error fetching user details:", error);
             }
         };
         fetchUserDetails();

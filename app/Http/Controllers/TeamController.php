@@ -24,15 +24,15 @@ class TeamController extends Controller
     {
         $request->validate([
             'nom'=>'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|', // Adjust the maximum file size as needed
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|',
             'description'=>'required',
             'title'=>'required',
         ]);
 
         // Handle file upload
         $filepath='';
-        if ($request->hasFile('photo')) {
-            $filepath = $request->file('photo')->store('pets','public');
+        if ($request->hasFile('image')) {
+            $filepath = $request->file('image')->store('team','public');
         }
         
         Team::create([

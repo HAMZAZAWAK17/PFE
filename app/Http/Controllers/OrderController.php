@@ -34,13 +34,9 @@ class OrderController extends Controller
         $order = new Order();
         $order->user_id = $request->input('user_id');
         $order->pet_id = $request->input('pet_id');
-        // $order->status = $request->status;
-        // You can add more fields as per your requirement
 
-        // Save the order
         $order->save();
 
-        // Retrieve user and pet details
         $user = User::select('name', 'email', 'telephone','adresse')->find($order->user_id);
         $pet = pet::select('nom', 'sexe', 'age','photo','description','espece','sante')->find($order->pet_id);
 
@@ -51,7 +47,6 @@ class OrderController extends Controller
             'pet' => $pet,
         ];
 
-        // Return JSON response
         return response()->json(['success' => true, 'data' => $data]);
     }
 

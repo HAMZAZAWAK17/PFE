@@ -13,34 +13,34 @@ const SideBar = () => {
   const [employeeCount, setEmployeeCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
 
-  useEffect(() => {
-    // Fetch data for statistics
-    const fetchStatistics = async () => {
-      try {
-        const animalResponse = await fetch("http://localhost:8000/api/petlist");
-        const animalData = await animalResponse.json();
-        setAnimalCount(animalData.length);
+  // useEffect(() => {
+  //   // Fetch data for statistics
+  //   const fetchStatistics = async () => {
+  //     try {
+  //       const animalResponse = await fetch("http://localhost:8000/api/petlist");
+  //       const animalData = await animalResponse.json();
+  //       setAnimalCount(animalData.length);
 
-        const employeeResponse = await fetch("http://localhost:8000/api/staff-list");
-        const employeeData = await employeeResponse.json();
-        setEmployeeCount(employeeData.length);
+  //       const employeeResponse = await fetch("http://localhost:8000/api/team-list");
+  //       const employeeData = await employeeResponse.json();
+  //       setEmployeeCount(employeeData.length);
 
-        const userResponse = await fetch("http://localhost:8000/api/users-list");
-        const userData = await userResponse.json();
-        setUserCount(userData.length);
-      } catch (error) {
-        console.error("Error fetching statistics:", error);
-      }
-    };
+  //       const userResponse = await fetch("http://localhost:8000/api/users-list");
+  //       const userData = await userResponse.json();
+  //       setUserCount(userData.length);
+  //     } catch (error) {
+  //       console.error("Error fetching statistics:", error);
+  //     }
+  //   };
 
-    fetchStatistics();
-  }, []);
+  //   fetchStatistics();
+  // }, []);
 
   const menus = [
     { name: "dashboard", link: "/sidebar", icon: AiOutlineDashboard },
     { name: "users", link: "/admin/users-dashboard", icon: HiUsers },
     { name: "pets", link: "/admin-dashboard", icon: MdOutlinePets },
-    { name: "staff", link: "/admin/staff-dashboard", icon: GrUserWorker },
+    { name: "staff", link: "/admin/team-dashboard", icon: GrUserWorker },
     { name: "exit", link: "/", icon: ImExit },
   ];
 

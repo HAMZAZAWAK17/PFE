@@ -26,9 +26,10 @@ import SideBar from "./components/admin/SideBar";
 import OrdersDashboard from "./components/admin/orders/OrdersDashboard";
 import Confirmation from "./components/Confirmation";
 import SendMessage from "./components/SendMessage";
-import TeamDashboard from "./components/admin/Team/TeamDashboard";
-import AddMember from "./components/admin/Team/AddMember";
-
+import AddMember from "./components/admin/team/AddMember";
+import TeamDashboard from "./components/admin/team/TeamDashboard";
+import DetailsMember from "./components/admin/team/DetailsMember";
+import AccueilHotel from "./components/hotel/AccueilHotel";
 
 axios.defaults.xsrfCookieName = "XSRF-TOKEN";
 axios.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
@@ -119,6 +120,17 @@ root.render(
                             </>
                         }
                     />
+
+                    <Route
+                        path="/hotel"
+                        element={
+                            <>
+                                <Navbar />
+                                <AccueilHotel/>
+                            </>
+                        }
+                    />
+                    
                     {/* ------------------- ADMIN ------------------- */}
                     <Route
                         path="/admin-dashboard"
@@ -130,7 +142,6 @@ root.render(
                         }
                     />
 
-                    
                     <Route
                         path="/admin/add-pet"
                         element={
@@ -140,8 +151,7 @@ root.render(
                             </>
                         }
                     />
-                    
-                     
+
                     <Route
                         path="/admin/edit-pet/:petId"
                         element={
@@ -176,7 +186,7 @@ root.render(
                         path="/admin/orders-dashboard"
                         element={
                             <>
-                                <NavAdmin />
+                                <SideBar />
                                 <OrdersDashboard />
                             </>
                         }
@@ -186,7 +196,7 @@ root.render(
                         path="/admin/team-dashboard"
                         element={
                             <>
-                                <NavAdmin />
+                                <SideBar />
                                 <TeamDashboard />
                             </>
                         }
@@ -196,8 +206,18 @@ root.render(
                         path="/admin/add-member"
                         element={
                             <>
-                                <NavAdmin />
+                                <SideBar />
                                 <AddMember />
+                            </>
+                        }
+                    />
+
+                    <Route
+                        path="/admin/details-member/:memberId"
+                        element={
+                            <>
+                                <SideBar />
+                                <DetailsMember />
                             </>
                         }
                     />

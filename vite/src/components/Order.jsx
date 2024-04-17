@@ -94,7 +94,7 @@ const Order = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center h-screen ">
+        <div className="flex flex-col justify-center h-screen ">
             {userDetails.lenght !== 0 ? (
                 <div className="w-full md:w-5/6 lg:w-full xl:w-1/2">
                     <div className="w-full mt-200 md:w-5/6 lg:w-2/3 xl:w-1/2 mx-auto">
@@ -153,7 +153,7 @@ const Order = () => {
                                         </p>
                                         <button
                                             onClick={handleSubmit}
-                                            className="bg-amber-400 rounded-xl py-3 px-6 mt-4 font-semibold hover:bg-slate-400 focus:scale-75 transition-all duration-250 ease-out"
+                                            className="bg-amber-400 rounded-xl py-3 px-6 mt-2 font-semibold hover:bg-slate-200 focus:scale-99 transition-all duration-250"
                                         >
                                             Confirmer l'adoption
                                         </button>

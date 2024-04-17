@@ -3,11 +3,11 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { elements } from "chart.js";
 
 const TeamDashboard = () => {
     const navigate = useNavigate();
     const [team, setTeam] = useState([]);
-    const [search, setSearch] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [loading, setLoading] = useState(true);
     const [userDetails, setUserDetails] = useState({
@@ -20,11 +20,19 @@ const TeamDashboard = () => {
         updated_at: null,
     });
     const [admin, setAdmin] = useState(0);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     const GetTeam = async () => {
         try {
+            const token = localStorage.getItem("token");
+
             const { data } = await axios.get(
-                "http://localhost:8000/api/team-list"
+                "http://localhost:8000/api/team-list",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
             );
             setTeam(data.team);
             setIsLoading(false);
@@ -69,12 +77,11 @@ const TeamDashboard = () => {
                 }
             }
         };
-
         fetchUserDetails();
         GetTeam();
     }, []);
 
-    const deleteUser = (id) => {
+    const deleteMember = (id) => {
         Swal.fire({
             title: "Êtes-vous sûr?",
             text: "Cette action est irréversible!",
@@ -103,7 +110,14 @@ const TeamDashboard = () => {
         });
     };
 
-    const inputRef = useRef();
+    const handleImageClick = (imageUrl) => {
+        setSelectedImage(imageUrl);
+    };
+
+    // Fonction pour fermer l'image agrandie
+    const closeImage = () => {
+        setSelectedImage(null);
+    };
 
     return (
         <div className="container mt-24 ml-10 max-w-full px-4 py-8">
@@ -115,6 +129,7 @@ const TeamDashboard = () => {
             )}
             {userDetails && admin === 1 ? (
                 <>
+                    {console.log(team)}
                     <div className="flex">
                         <h1 className="text-2xl font-bold mb-4">
                             Gestion des Membres
@@ -131,8 +146,8 @@ const TeamDashboard = () => {
                     <table className="w-full border mt-6">
                         <thead>
                             <tr>
-                                <th className="border px-4 py-2">Image</th>
                                 <th className="border px-4 py-2">Nom</th>
+                                <th className="border px-4 py-2">Image</th>
                                 <th className="border px-4 py-2">Fonction</th>
                                 <th className="border px-4 py-2">
                                     Description
@@ -142,30 +157,43 @@ const TeamDashboard = () => {
                         </thead>
 
                         <tbody>
-                            {team.map((user) => (
-                                <tr key={user.id}>
+                            {team.map((member) => (
+                                <tr key={member.id}>
                                     <td className="border px-4 py-2">
-                                        {user.name}
+                                        {member.nom}
+                                    </td>
+                                    <td
+                                        className="border px-4 py-2 w-3"
+                                        onClick={() =>
+                                            handleImageClick(
+                                                `http://localhost:8000/storage/${member.image}`
+                                            )
+                                        }
+                                    >
+                                        <img
+                                            src={`http://localhost:8000/storage/${member.image}`}
+                                            alt=""
+                                        />
                                     </td>
                                     <td className="border px-4 py-2">
-                                        {user.email}
+                                        {member.title}
                                     </td>
                                     <td className="border px-4 py-2">
-                                        {user.adresse}
-                                    </td>
-                                    <td className="border px-4 py-2">
-                                        {user.telephone}
+                                        {member.description.substring(0, 35)}{" "}
+                                        ...
                                     </td>
                                     <td className="border px-4 py-2">
                                         <button
                                             className="bg-red-500 hover:bg-red-600 text-white ml-7 px-2 py-1 rounded"
-                                            onClick={() => deleteUser(user.id)}
+                                            onClick={() =>
+                                                deleteMember(member.id)
+                                            }
                                         >
                                             Supprimer
                                         </button>
                                         <button className="ml-4 bg-emerald-400 hover:bg-orange-500 px-2 py-1 rounded text-white">
                                             <Link
-                                                to={`/admin/details-pet/${user.id}`}
+                                                to={`/admin/details-member/${member.id}`}
                                             >
                                                 Détails
                                             </Link>
