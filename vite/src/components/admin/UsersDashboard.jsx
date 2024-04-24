@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { axiosClient } from "../api/axios";
 
 const UsersDashboard = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const UsersDashboard = () => {
 
   const GetUsers = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8000/api/users-list");
+      const { data } = await axiosClient.get("http://localhost:8000/api/users-list");
       setUsers(data.users);
       setIsLoading(false);
     } catch (error) {
@@ -45,7 +46,7 @@ const UsersDashboard = () => {
           return;
         }
 
-        const response = await axios.get(
+        const response = await axiosClient.get(
           "http://127.0.0.1:8000/api/user-detail",
           {
             headers: {
@@ -87,7 +88,7 @@ const UsersDashboard = () => {
       confirmButtonText: "Oui, supprimer!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios
+        axiosClient
           .delete(`http://localhost:8000/api/delete-pet/${id}`)
           .then((response) => {
             setUsers(users.filter((user) => user.id !== id));

@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { elements } from "chart.js";
+import { axiosClient } from "../../api/axios";
 
 const TeamDashboard = () => {
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ const TeamDashboard = () => {
         try {
             const token = localStorage.getItem("token");
 
-            const { data } = await axios.get(
+            const { data } = await axiosClient.get(
                 "http://localhost:8000/api/team-list",
                 {
                     headers: {
@@ -51,7 +52,7 @@ const TeamDashboard = () => {
                     return;
                 }
 
-                const response = await axios.get(
+                const response = await axiosClient.get(
                     "http://127.0.0.1:8000/api/user-detail",
                     {
                         headers: {
@@ -92,7 +93,7 @@ const TeamDashboard = () => {
             confirmButtonText: "Oui, supprimer!",
         }).then((result) => {
             if (result.isConfirmed) {
-                axios
+                axiosClient
                     .delete(`http://localhost:8000/api/delete-member/${id}`)
                     .then((response) => {
                         setTeam(team.filter((member) => member.id !== id));

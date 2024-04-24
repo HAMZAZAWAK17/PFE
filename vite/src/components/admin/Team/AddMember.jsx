@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { axiosClient } from "../../api/axios";
 
 const AddMember = () => {
     const navigate = useNavigate();
@@ -28,7 +29,7 @@ const AddMember = () => {
                     return;
                 }
 
-                const response = await axios.get(
+                const response = await axiosClient.get(
                     "http://127.0.0.1:8000/api/user-detail",
                     {
                         headers: {
@@ -66,7 +67,7 @@ const AddMember = () => {
         const formData = new FormData(e.target);
 
         try {
-            const response = await axios.post(
+            const response = await axiosClient.post(
                 "http://localhost:8000/api/add-member",
                 formData
             );

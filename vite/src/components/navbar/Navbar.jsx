@@ -1,11 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useMenu } from "../context/context";
 import "./Navbar.css";
-import { IoMdMenu } from "react-icons/io";
-import Register from "../Register";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import Swal from "sweetalert2";
+import { axiosClient } from "../api/axios";
+import { IoMdMenu, IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 
 export const navItems = [
     {
@@ -23,6 +21,10 @@ export const navItems = [
     {
         title: "A Propos",
         href: "/about",
+    },
+    {
+        title: "PetSitter",
+        href: "/hotel",
     },
 ];
 
@@ -44,27 +46,22 @@ const Navbar = () => {
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
-                // if (!token) {
-                //     navigate("/");
-                //     return;
-                // }
-
-                const response = await axios.get(
-                    "http://127.0.0.1:8000/api/user-detail",
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
+                const response = await axiosClient.get(
+                    "http://127.0.0.1:8000/api/user-detail"
                 );
                 setUserDetails(response.data);
-                // setIsLoggedIn(true);
+                if (token) {
+                    setIsLoggedIn(true);
+                }
             } catch (error) {
-                console.error("Error fetching user details:", error);
+                console.log("You are Not logged In");
             }
         };
         fetchUserDetails();
     }, []);
+
+    const [hoveredItem, setHoveredItem] = useState(null);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     return (
         <header className="header font-poppins bg-slate-800 fixed top-0 left-0 w-full px-100 flex justify-between items-center z-10">
@@ -85,18 +82,55 @@ const Navbar = () => {
                     </Link>
                 ))}
             </nav>
-            {token ? (
+            {isLoggedIn ? (
                 <div className="navbar-right mr-0 py-4 sm:flex hidden items-center justify-between">
-                    <p className="text-white mr-4">Hello {userDetails.name}</p>
-                    <button
-                        className="select-none bg-amber-400 hover:bg-white hover:text-black px-4 pt-2.5 pb-2.5 rounded-3xl mr-4 text-black font-500 text-14 py-7 px-15 rounded-5"
-                        onClick={() => {
-                            localStorage.removeItem("token");
-                            navigate("/");
-                        }}
-                    >
-                        Logout
-                    </button>
+                    <div className="relative flex items-center">
+                        <p className="text-white mt-4 mr-4 mb-4 inline-block">
+                            Hello {userDetails.name}
+                        </p>
+                        <button
+                            className="text-white focus:outline-none inline-block"
+                            onClick={() => {
+                                setIsDropdownOpen(!isDropdownOpen);
+                            }}
+                        >
+                            {isDropdownOpen ? (
+                                <IoMdArrowDropup className="text-2xl" />
+                            ) : (
+                                <IoMdArrowDropdown className="text-2xl" />
+                            )}
+                        </button>
+
+                        {isDropdownOpen && (
+                            <div className="absolute bg-white top-full mt-1 rounded shadow-md">
+                                <ul>
+                                    <li className="py-2 px-4 hover:bg-gray-200 w-full">
+                                        <Link to={""}>Profile</Link>
+                                    </li>
+                                    <li className="py-2 px-4 hover:bg-gray-200">
+                                        <Link>Orders</Link>
+                                    </li>
+                                    <li className="py-2 px-4 hover:bg-gray-200">
+                                        <Link>Reservations</Link>
+                                    </li>
+                                    <li className="py-2 px-4 text-black hover:bg-red-600 hover:text-white">
+                                        <button
+                                            className="focus:outline-none"
+                                            onClick={() => {
+                                                localStorage.removeItem(
+                                                    "token"
+                                                );
+                                                setIsLoggedIn(false);
+                                                navigate("/");
+                                            }}
+                                        >
+                                            Logout
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        )}
+                    </div>
                 </div>
             ) : (
                 <div className="navbar-right mr-0 sm:flex hidden items-center justify-between">

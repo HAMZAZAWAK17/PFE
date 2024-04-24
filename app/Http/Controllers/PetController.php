@@ -11,7 +11,13 @@ class PetController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * 
      */
+    public function __construct()
+    {
+        $this->middleware('verifyAuth',['except' => ['filterAnimals','show']]);
+    }
+    
     public function index()
     {
         return response([

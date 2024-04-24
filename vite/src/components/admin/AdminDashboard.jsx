@@ -3,6 +3,8 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { axiosClient } from "../api/axios";
+import Unauthorized from "../assets/Unauthorized.jpg";
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -25,14 +27,7 @@ const AdminDashboard = () => {
     const GetPets = async () => {
         try {
             const token = localStorage.getItem("token");
-            const { data } = await axios.get(
-                "http://localhost:8000/api/petlist",
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
+            const { data } = await axiosClient.get("/petlist");
             setPets(data.pets);
             setIsLoading(false);
         } catch (error) {
@@ -50,13 +45,8 @@ const AdminDashboard = () => {
                     return;
                 }
 
-                const response = await axios.get(
-                    "http://127.0.0.1:8000/api/user-detail",
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
+                const response = await axiosClient.get(
+                    "http://127.0.0.1:8000/api/user-detail"
                 );
                 setUserDetails(response.data);
                 setAdmin(response.data.admin);
@@ -92,7 +82,7 @@ const AdminDashboard = () => {
             confirmButtonText: "Oui, supprimer!",
         }).then((result) => {
             if (result.isConfirmed) {
-                axios
+                axiosClient
                     .delete(`http://localhost:8000/api/delete-pet/${id}`)
                     .then((response) => {
                         setPets(pets.filter((pet) => pet.id !== id));
@@ -279,16 +269,20 @@ const AdminDashboard = () => {
                     )}
                 </>
             ) : (
-                <>
+                <div
+                    style={{
+                        backgroundImage: `url(${Unauthorized})`,
+                    }}
+                    className="absolute inset-0 bg-cover bg-center mt-18"
+                >
                     {!loading && (
-                        <>
-                            <h1>You don't have access</h1>
-                            <button>
-                                <Link to={"/"}>return</Link>
+                        <div className="absolute bottom-8 flex justify-center w-full">
+                            <button className="bg-black hover:bg-slate-700 text-white font-bold py-3 px-5 rounded-xl">
+                                <Link to={"/"}>Return</Link>
                             </button>
-                        </>
+                        </div>
                     )}
-                </>
+                </div>
             )}
         </div>
     );

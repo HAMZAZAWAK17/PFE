@@ -10,6 +10,11 @@ use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('verifyAuth');
+    }
+    
     /**
      * Display a listing of the resource.
      */
@@ -21,7 +26,7 @@ class ReservationController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     */
+    */
     public function store(Request $request)
     {
         $request->validate([
@@ -43,9 +48,12 @@ class ReservationController extends Controller
         $end = Carbon::parse($reservation->date_fin);
         $duree = $end->diffInDays($start);
 
-        $reservation->duree = $duree;
+        //7sseb l prix hna
+        $reservation -> prix = 20 * $duree;
 
-        $reservation->save();
+        $reservation -> duree = $duree;
+
+        $reservation -> save();
         
         $user = User::select('name', 'email', 'telephone','adresse')->find($reservation->user_id);
 
@@ -56,10 +64,10 @@ class ReservationController extends Controller
             'date_debut' => $reservation->date_debut,
             'date_fin' => $reservation->date_fin,
             'duree' => $duree,
+            'prix' => $reservation->prix
         ];
 
         return response()->json(['success' => true, 'data' => $data]);
-        
     }
 
     /**
@@ -73,7 +81,7 @@ class ReservationController extends Controller
             return response()->json(['error' => 'Reservation not found'], 404);
         }
 
-        return response()->json(['reservation' => $reservation]);   
+        return response()->json(['reservation' => $reservation]);
 
     }
 

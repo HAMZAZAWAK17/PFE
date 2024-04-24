@@ -30,9 +30,11 @@ import AddMember from "./components/admin/team/AddMember";
 import TeamDashboard from "./components/admin/team/TeamDashboard";
 import DetailsMember from "./components/admin/team/DetailsMember";
 import AccueilHotel from "./components/hotel/AccueilHotel";
+import Reservation from "./components/hotel/Reservation";
+import { Toaster } from "react-hot-toast";
 
-axios.defaults.xsrfCookieName = "XSRF-TOKEN";
-axios.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
+// axios.defaults.xsrfCookieName = "XSRF-TOKEN";
+// axios.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -89,6 +91,7 @@ root.render(
                         path="/order/:id"
                         element={
                             <>
+                                <Navbar />
                                 <Order />
                             </>
                         }
@@ -126,12 +129,22 @@ root.render(
                         element={
                             <>
                                 <Navbar />
-                                <AccueilHotel/>
+                                <AccueilHotel />
                             </>
                         }
                     />
-                    
-                    {/* ------------------- ADMIN ------------------- */}
+
+                    <Route
+                        path="/hotel/reserve"
+                        element={
+                            <>
+                                <Navbar />
+                                <Reservation />
+                            </>
+                        }
+                    />
+
+                    {/* ------------------- ADMIN ROUTES ------------------- */}
                     <Route
                         path="/admin-dashboard"
                         element={
@@ -245,6 +258,7 @@ root.render(
                     />
                 </Routes>
             </BrowserRouter>
+            <Toaster position="top-center" />
         </MenuProvider>
     </React.StrictMode>
 );

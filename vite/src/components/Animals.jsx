@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { axiosClient } from "./api/axios";
+import { useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Animals = () => {
     const [animals, setAnimals] = useState([]);
@@ -13,7 +16,7 @@ const Animals = () => {
     useEffect(() => {
         const fetchAllAnimals = async () => {
             try {
-                const response = await axios.get(
+                const response = await axiosClient.get(
                     "http://localhost:8000/api/filter-pets"
                 );
                 setAnimals(response.data.pets);
@@ -90,9 +93,16 @@ const Animals = () => {
                                 </p>
 
                                 <p className="text-slate-800 font-poppins text-lg mt-3 description-wrap">
-                                    <b>Description:</b> {animal.description.substring(0, 40)}...
+                                    <b>Description:</b>{" "}
+                                    {animal.description.substring(0, 40)}...
                                 </p>
                                 <a
+                                    onClick={() => {
+                                        localStorage.setItem(
+                                            "CurrentPath",
+                                            `/order/${animal.id}`
+                                        );
+                                    }}
                                     href={`/order/${animal.id}`}
                                     className="text-center bg-amber-400 rounded-xl py-3 px-2 mt-4 font-semibold hover:bg-slate-400 focus:scale-75 transition-all duration-250 ease-out"
                                 >

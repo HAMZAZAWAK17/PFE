@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { axiosClient } from "../../api/axios";
 
 const OrdersDashboard = () => {
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ const OrdersDashboard = () => {
 
     const GetOrders = async () => {
         try {
-            const { data } = await axios.get(
+            const { data } = await axiosClient.get(
                 "http://localhost:8000/api/orders-list"
             );
             setOrders(data.orders);
@@ -41,7 +42,7 @@ const OrdersDashboard = () => {
                     return;
                 }
 
-                const response = await axios.get(
+                const response = await axiosClient.get(
                     "http://127.0.0.1:8000/api/user-detail",
                     {
                         headers: {
@@ -73,7 +74,7 @@ const OrdersDashboard = () => {
     }, []);
 
     const AcceptOrder = (orderId) => {
-        axios
+        axiosClient
             .put(`http://localhost:8000/api/accept-order/${orderId}`, {
                 status: "Accepté",
             })
@@ -85,7 +86,7 @@ const OrdersDashboard = () => {
             });
     };
     const RefuseOrder = (orderId) => {
-        axios
+        axiosClient
             .put(`http://localhost:8000/api/refuse-order/${orderId}`, {
                 status: "Refusé",
             })
@@ -97,7 +98,7 @@ const OrdersDashboard = () => {
             });
     };
     const ResetStatus = (orderId) => {
-        axios
+        axiosClient
             .put(`http://localhost:8000/api/reset-order/${orderId}`, {
                 status: "pending",
             })

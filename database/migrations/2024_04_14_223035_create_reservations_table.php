@@ -19,8 +19,11 @@ return new class extends Migration
             $table->date('date_debut');
             $table->date('date_fin');
             $table->integer('duree')->default(0);
-            $table->integer('pet_count')->default(0);
             $table->integer('prix')->default(20);
+            $table->integer('pet_count')->default(0);
+            $table->string('status')->default('pending');
+            
+            
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

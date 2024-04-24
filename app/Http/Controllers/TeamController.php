@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class TeamController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('verifyAuth');
+    }
+    
     /**
      * Display a listing of the resource.
      */

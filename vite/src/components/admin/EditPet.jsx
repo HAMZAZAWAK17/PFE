@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { axiosClient } from "../api/axios";
 
 const EditPet = () => {
+  const token = localStorage.getItem("token");
   const { petId } = useParams();
   const navigate = useNavigate();
   const [data, setData] = useState({
@@ -30,20 +32,15 @@ const EditPet = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const token = localStorage.getItem("token");
 
         if (!token) {
           navigate("/login");
           return;
         }
 
-        const response = await axios.get(
+        const response = await axiosClient.get(
           "http://127.0.0.1:8000/api/user-detail",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          
         );
         setUserDetails(response.data);
         setAdmin(response.data.admin);
@@ -65,8 +62,8 @@ const EditPet = () => {
     };
 
     fetchUserDetails();
-    axios
-      .get(`http://localhost:8000/api/edit-pet/${petId}`)
+    axiosClient
+      .get(`http://localhost:8000/api/edit-pet/${petId}`,)
       .then((response) => {
         setData(response.data.pet);
         // console.log(response.data.pet);
@@ -88,7 +85,7 @@ const EditPet = () => {
     }
     //formData.append("photo", Object.fromEntries(formData.entries()).photo);
     try {
-      await axios.put(
+      await axiosClient.put(
         `http://localhost:8000/api/update-pet/${petId}`,
         Object.fromEntries(formData.entries())
       );

@@ -32,6 +32,8 @@ Route::get('/edit-pet/{id}', [PetController::class, 'edit']);
 Route::put('/update-pet/{id}',[PetController::class,'update']);
 Route::delete('/delete-pet/{id}',[PetController::class,'destroy']);
 Route::post('/store-pet',[PetController::class,'store']);
+Route::get('/filter-pets',[PetController::class,'filterAnimals']);
+Route::get('/details-pets/{id}', [PetController::class, 'show']);
 
 // ---------------------------- Users ----------------------------
 Route::get('/users-list',[UserController::class,'index']);
@@ -50,17 +52,8 @@ Route::delete('/delete-order/{id}',[OrderController::class,'destroy']);
 Route::put('/accept-order/{id}',[OrderController::class,'acceptOrder']);
 Route::put('/refuse-order/{id}',[OrderController::class,'refuseOrder']);
 Route::put('/reset-order/{id}',[OrderController::class,'reset']);
-
-// ---------------------------- Pets ----------------------------
-Route::get('/filter-pets',[PetController::class,'filterAnimals']);
-Route::get('/details-pets/{id}', [PetController::class, 'show']);
-
-
-// ---------------------------- Orders ----------------------------
 Route::post('/make-order',[OrderController::class,'store']);
 Route::get('/details-order/{id}',[OrderController::class,'show']);
-
-
 
 // ---------------------------- Hotel ----------------------------
 Route::get('/reservation-list',[ReservationController::class,'index']);

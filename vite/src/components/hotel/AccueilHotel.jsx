@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
-import s1 from '../assets/slides/1.jpeg';
-import s2 from '../assets/slides/2.jpeg'
-import s3 from '../assets/slides/3.jpeg'
-import s4 from '../assets/slides/4.jpeg'
+import s1 from "../assets/slides/1.jpeg";
+import s2 from "../assets/slides/2.jpeg";
+import s3 from "../assets/slides/3.jpeg";
+import s4 from "../assets/slides/4.jpeg";
 
 const AccueilHotel = () => {
     const slides = [
@@ -12,15 +12,15 @@ const AccueilHotel = () => {
             url: s1,
         },
         {
-            url: s2
+            url: s2,
         },
         {
-            url: s3
+            url: s3,
         },
 
         {
-            url: s4
-        }
+            url: s4,
+        },
     ];
 
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -40,15 +40,9 @@ const AccueilHotel = () => {
     const goToSlide = (slideIndex) => {
         setCurrentIndex(slideIndex);
     };
-    
     return (
-        <div
-            style={{
-                backgroundImage: `url('${slides[currentIndex].url}')`,
-            }}
-            className="max-w-[1366px] h-[680px] w-full py-16 px-4 relative group"
-        >
-            <div className="max-w-[900px] h-[600px] w-full m-auto py-16 px-4 relative group">
+        <div className="max-w-[1400px] h-[680px] w-full bg-orange-100 py-16 px-4 relative group">
+            <div className="max-w-[800px] h-[550px] w-full m-auto py-16 px-4 relative group">
                 <div
                     style={{
                         backgroundImage: `url(${slides[currentIndex].url})`,
