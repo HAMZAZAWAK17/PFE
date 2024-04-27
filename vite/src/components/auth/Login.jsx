@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Swal from "sweetalert2";
-import signup from "./assets/signup.jpg";
+import signup from "../assets/signup.jpg";
 import toast, { Toaster } from "react-hot-toast";
+import { useForm } from "react-hook-form";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -12,6 +12,7 @@ const Login = () => {
     useEffect(() => {
         if (token) {
             navigate("/");
+            localStorage.removeItem("token");
         }
     }, [token, navigate]);
 
@@ -38,12 +39,19 @@ const Login = () => {
         });
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+        trigger,
+    } = useForm();
+
+    const Submit = async (data) => {
         try {
             const response = await axios.post(
                 "http://127.0.0.1:8000/api/login",
-                formData
+                data
             );
 
             const token = response.data.authorisation.token;
@@ -68,11 +76,7 @@ const Login = () => {
                 if (responseData) {
                     setValidationErrors(responseData);
                 } else {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error",
-                        text: responseData || "Login failed.",
-                    });
+                    toast.error("Une erreur a survenu");
                 }
             }
         }
@@ -84,7 +88,7 @@ const Login = () => {
                 <img src={signup} className="rounded-3xl" alt="" />
             </div>
             <form
-                onSubmit={handleSubmit}
+                onSubmit={handleSubmit(Submit)}
                 className="bg-gradient-to-r from-neutral-900 to-sky-950 max-w-max min-w-96 shadow-md font-poppins rounded-3xl px-8 pt-6 pb-8 ml-20 mb-4"
             >
                 <h2 className="text-white mb-4 text-4xl">Login</h2>
@@ -99,12 +103,24 @@ const Login = () => {
                         type="email"
                         id="email"
                         name="email"
-                        value={formData.email}
+                        // value={formData.email}
                         onChange={handleChange}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Enter your email"
-                        required
+                        {...register("email", {
+                            required: "Ce champ est requis",
+                            pattern: {
+                                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                                message: "la syntax email n'est pas valide",
+                            },
+                        })}
+                        onBlur={() => trigger("email")}
                     />
+                    {errors.email && (
+                        <span className="text-red-500 text-sm">
+                            {errors.email.message}
+                        </span>
+                    )}
                 </div>
                 <div className="mb-6">
                     <label
@@ -117,12 +133,30 @@ const Login = () => {
                         type="password"
                         id="password"
                         name="password"
-                        value={formData.password}
+                        // value={formData.password}
                         onChange={handleChange}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Enter your password"
-                        required
+                        {...register("password", {
+                            required: "Mot de passe requis",
+                            minLength: {
+                                value: 6,
+                                message:
+                                    "Le mot de passe doit avoir au moins 8 caractères",
+                            },
+                            // pattern: {
+                            //     value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                            //     message:
+                            //         "Le mot de passe doit contenirune lettre et un chiffre",
+                            // },
+                        })}
+                        onBlur={() => trigger("password")}
                     />
+                    {errors.password && (
+                        <span className="text-red-500 text-sm">
+                            {errors.password.message}
+                        </span>
+                    )}
                 </div>
                 <div className="flex items-center justify-between">
                     <button

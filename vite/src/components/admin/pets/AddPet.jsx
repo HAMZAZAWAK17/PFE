@@ -1,8 +1,8 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-import { axiosClient } from "../api/axios";
+import { axiosClient } from "../../api/axios";
+import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
 
 const AddPet = () => {
     const navigate = useNavigate();
@@ -30,12 +30,7 @@ const AddPet = () => {
                 }
 
                 const response = await axiosClient.get(
-                    "http://127.0.0.1:8000/api/user-detail",
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
+                    "http://127.0.0.1:8000/api/user-detail"
                 );
                 setUserDetails(response.data);
                 setAdmin(response.data.admin);
@@ -43,13 +38,9 @@ const AddPet = () => {
             } catch (error) {
                 setLoading(false);
                 if (error.response && error.response.status === 401) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Authentication Failed",
-                        text: "Please log in again.",
-                    }).then(() => {
-                        navigate("/");
-                    });
+                    toast.error("Session expiré .Veuillez se reconnecter");
+                    navigate("/");
+                    localStorage.removeItem("token");
                 } else {
                     console.error("Error fetching user details:", error);
                 }
@@ -62,33 +53,46 @@ const AddPet = () => {
         setData({ ...data, photo: e.target.files[0] });
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
+    const Submit = async (formData) => {
+        const formDataObject = new FormData();
+        Object.entries(formData).forEach(([key, value]) => {
+            formDataObject.append(key, value);
+        });
+        if (data.photo) {
+            formDataObject.append("photo", data.photo); // add the file to the form data
+        }
 
         try {
             const response = await axiosClient.post(
                 "http://localhost:8000/api/store-pet",
-                formData
+                formDataObject
             );
-            Swal.fire({
-                title: "Succès!",
-                text: "L'animal a été ajouté avec succès.",
-                icon: "success",
-                confirmButtonText: "OK",
-            }).then(() => {
-                navigate("/admin-dashboard");
-            });
+            toast.success("L'animal a été ajouté avec succès.");
+            navigate("/admin-dashboard");
         } catch (error) {
             console.error("Error adding pet:", error);
-            Swal.fire({
-                title: "Erreur!",
-                text: "Une erreur s'est produite lors de l'ajout de l'animal.",
-                icon: "error",
-                confirmButtonText: "OK",
-            });
+            toast.error(
+                "Une erreur s'est produite lors de l'ajout de l'animal."
+            );
         }
     };
+
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+        trigger,
+    } = useForm({
+        defaultValues: {
+            nom: "",
+            description: "",
+            sexe: "",
+            espece: "",
+            age: "",
+            sante: "",
+        },
+    });
 
     return (
         <div className="my-20 mx-auto max-w-lg">
@@ -103,7 +107,7 @@ const AddPet = () => {
                     <h1 className="text-2xl font-bold mb-4 text-center">
                         Ajouter les informations de votre animal
                     </h1>
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <form onSubmit={handleSubmit(Submit)} className="space-y-4">
                         <div>
                             <label
                                 htmlFor="nom"
@@ -117,8 +121,26 @@ const AddPet = () => {
                                 name="nom"
                                 // onChange={handleChange}
                                 className="w-full border rounded px-3 py-2 mt-1"
-                                required
+                                {...register("nom", {
+                                    required: "Ce champ est requis",
+                                    minLength: {
+                                        value: 2,
+                                        message:
+                                            "Le prénom doit etre au moins 2 characteres",
+                                    },
+                                    pattern: {
+                                        value: /^[a-zA-ZÀ-ÿ\s'-]+$/,
+                                        message:
+                                            "Ce champ doit être alphabétique",
+                                    },
+                                })}
+                                onBlur={() => trigger("nom")}
                             />
+                            {errors.nom && (
+                                <span className="text-red-500 text-sm">
+                                    {errors.nom.message}
+                                </span>
+                            )}
                         </div>
                         <div>
                             <label
@@ -134,7 +156,6 @@ const AddPet = () => {
                                 name="photo"
                                 onChange={handleChangeFile}
                                 className="w-full border rounded px-3 py-2 mt-1"
-                                required
                             />
                         </div>
                         <div>
@@ -149,8 +170,26 @@ const AddPet = () => {
                                 name="description"
                                 // onChange={handleChange}
                                 className="w-full border rounded px-3 py-2 mt-1"
-                                required
+                                {...register("description", {
+                                    required: "Ce champ est requis",
+                                    minLength: {
+                                        value: 100,
+                                        message:
+                                            "La description doit etre au moins 100 characteres",
+                                    },
+                                    pattern: {
+                                        value: /^[a-zA-ZÀ-ÿ\s'-]+$/,
+                                        message:
+                                            "Ce champ doit être alphabétique",
+                                    },
+                                })}
+                                onBlur={() => trigger("description")}
                             ></textarea>
+                            {errors.description && (
+                                <span className="text-red-500 text-sm">
+                                    {errors.description.message}
+                                </span>
+                            )}
                         </div>
                         <div>
                             <label
@@ -164,7 +203,9 @@ const AddPet = () => {
                                 name="sexe"
                                 // onChange={handleChange}
                                 className="w-full border rounded px-3 py-2 mt-1"
-                                required
+                                {...register("sexe", {
+                                    required: "Ce champ est requis",
+                                })}
                             >
                                 <option value="">
                                     -------------- Choisissez le sexe
@@ -173,6 +214,11 @@ const AddPet = () => {
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>
+                            {errors.sexe && (
+                                <span className="text-red-500 text-sm">
+                                    {errors.sexe.message}
+                                </span>
+                            )}
                         </div>
                         <div>
                             <label
@@ -187,8 +233,21 @@ const AddPet = () => {
                                 name="espece"
                                 // onChange={handleChange}
                                 className="w-full border rounded px-3 py-2 mt-1"
-                                required
+                                {...register("espece", {
+                                    required: "Ce champ est requis",
+                                    pattern: {
+                                        value: /^[a-zA-ZÀ-ÿ\s'-]+$/,
+                                        message:
+                                            "Ce champ doit être alphabétique",
+                                    },
+                                })}
+                                onBlur={() => trigger("espece")}
                             />
+                            {errors.espece && (
+                                <span className="text-red-500 text-sm">
+                                    {errors.espece.message}
+                                </span>
+                            )}
                         </div>
                         <div>
                             <label
@@ -203,8 +262,21 @@ const AddPet = () => {
                                 name="age"
                                 // onChange={handleChange}
                                 className="w-full border rounded px-3 py-2 mt-1"
-                                required
+                                {...register("age", {
+                                    required: "Ce champ est requis",
+                                    pattern: {
+                                        value: /^\d+$/,
+                                        message:
+                                            "Veuillez entrer un nombre valide pour l'âge",
+                                    },
+                                })}
+                                onBlur={() => trigger("age")}
                             />
+                            {errors.age && (
+                                <span className="text-red-500 text-sm">
+                                    {errors.age.message}
+                                </span>
+                            )}
                         </div>
                         <div>
                             <label
@@ -219,8 +291,21 @@ const AddPet = () => {
                                 name="sante"
                                 // onChange={handleChange}
                                 className="w-full border rounded px-3 py-2 mt-1"
-                                required
+                                {...register("sante", {
+                                    required: "Ce champ est requis",
+                                    pattern: {
+                                        value: /^[a-zA-ZÀ-ÿ\s'-]+$/,
+                                        message:
+                                            "Ce champ doit être alphabétique",
+                                    },
+                                })}
+                                onBlur={() => trigger("sante")}
                             />
+                            {errors.sante && (
+                                <span className="text-red-500 text-sm">
+                                    {errors.sante.message}
+                                </span>
+                            )}
                         </div>
                         <div className="grid grid-cols-2 gap-4 mt-6">
                             <button

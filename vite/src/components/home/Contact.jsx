@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { CgMail } from "react-icons/cg";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoLocationSharp } from "react-icons/io5";
-import contact from "./assets/contact.jpg";
+import contact from "../assets/contact.jpg";
 import AOS from "aos";
 import "aos/dist/aos.css";
 

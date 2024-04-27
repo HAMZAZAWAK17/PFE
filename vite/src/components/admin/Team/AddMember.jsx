@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import { axiosClient } from "../../api/axios";
+import toast from "react-hot-toast";
 
 const AddMember = () => {
     const navigate = useNavigate();
@@ -43,13 +43,9 @@ const AddMember = () => {
             } catch (error) {
                 setLoading(false);
                 if (error.response && error.response.status === 401) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Authentication Failed",
-                        text: "Please log in again.",
-                    }).then(() => {
-                        navigate("/");
-                    });
+                    toast.error("Session expiré .Veuillez se reconnecter");
+                    navigate("/");
+                    localStorage.removeItem("token");
                 } else {
                     console.error("Error fetching user details:", error);
                 }
@@ -71,22 +67,13 @@ const AddMember = () => {
                 "http://localhost:8000/api/add-member",
                 formData
             );
-            Swal.fire({
-                title: "Succès!",
-                text: "Votre Membre a été ajouté avec succès.",
-                icon: "success",
-                confirmButtonText: "OK",
-            }).then(() => {
-                navigate("/admin/team-dashboard");
-            });
+            toast.success("votre Membre a été ajouté avec succès.");
+            navigate("/admin/team-dashboard");
         } catch (error) {
             console.error("Error adding pet:", error);
-            Swal.fire({
-                title: "Erreur!",
-                text: "Une erreur s'est produite lors de l'ajout de l'animal.",
-                icon: "error",
-                confirmButtonText: "OK",
-            });
+            toast.error(
+                "Une erreur s'est produite lors de l'ajout de l'animal."
+            );
         }
     };
 

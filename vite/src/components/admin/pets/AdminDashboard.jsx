@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-import Swal from "sweetalert2";
-import { axiosClient } from "../api/axios";
-import Unauthorized from "../assets/Unauthorized.jpg";
+import { axiosClient } from "../../api/axios";
+import toast from "react-hot-toast";
+import Unauthorized from "../../other/Unauthorized";
+
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -54,13 +54,9 @@ const AdminDashboard = () => {
             } catch (error) {
                 setLoading(false);
                 if (error.response && error.response.status === 401) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Authentication Failed",
-                        text: "Please log in again.",
-                    }).then(() => {
-                        navigate("/");
-                    });
+                    toast.error("Session expiré .Veuillez se reconnecter");
+                    navigate("/");
+                    localStorage.removeItem("token");
                 } else {
                     console.error("Error fetching user details:", error);
                 }
@@ -72,32 +68,16 @@ const AdminDashboard = () => {
     }, []);
 
     const deletePet = (id) => {
-        Swal.fire({
-            title: "Êtes-vous sûr?",
-            text: "Cette action est irréversible!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Oui, supprimer!",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axiosClient
-                    .delete(`http://localhost:8000/api/delete-pet/${id}`)
-                    .then((response) => {
-                        setPets(pets.filter((pet) => pet.id !== id));
-                        GetPets();
-                    })
-                    .catch((error) => {
-                        console.error("Error deleting pet:", error);
-                    });
-                Swal.fire(
-                    "Supprimé!",
-                    "Votre animal a été supprimé avec succès.",
-                    "success"
-                );
-            }
-        });
+        axiosClient
+            .delete(`http://localhost:8000/api/delete-pet/${id}`)
+            .then((response) => {
+                setPets(pets.filter((pet) => pet.id !== id));
+                GetPets();
+                toast.error("Votre animal a été supprimé avec succès.");
+            })
+            .catch((error) => {
+                console.error("Error deleting pet:", error);
+            });
     };
 
     const inputRef = useRef();
@@ -269,20 +249,7 @@ const AdminDashboard = () => {
                     )}
                 </>
             ) : (
-                <div
-                    style={{
-                        backgroundImage: `url(${Unauthorized})`,
-                    }}
-                    className="absolute inset-0 bg-cover bg-center mt-18"
-                >
-                    {!loading && (
-                        <div className="absolute bottom-8 flex justify-center w-full">
-                            <button className="bg-black hover:bg-slate-700 text-white font-bold py-3 px-5 rounded-xl">
-                                <Link to={"/"}>Return</Link>
-                            </button>
-                        </div>
-                    )}
-                </div>
+                <>{!loading && <Unauthorized />}</>
             )}
         </div>
     );

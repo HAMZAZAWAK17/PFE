@@ -9,7 +9,7 @@ class Reservation extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['nom', 'espece', 'date_debut', 'date_fin','pet_count','duree','prix'];
+    protected $fillable = ['nom', 'espece', 'date_debut', 'date_fin','pet_count','duree','prix','raison'];
 
     public function user()
     {

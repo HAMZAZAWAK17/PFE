@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Typed from "typed.js";
-import hero1 from "./assets/hero1.png";
+import hero1 from "../assets/hero1.png";
 
 const Hero = () => {
     const typedRef = useRef(null);

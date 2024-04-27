@@ -1,14 +1,14 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import { axiosClient } from "../../api/axios";
+import Unauthorized from "../../other/Unauthorized";
 
 const OrdersDashboard = () => {
     const navigate = useNavigate();
     const [orders, setOrders] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [loading, setLoading] = useState(true);
+    const [popup, setPopup] = useState(false);
     const [userDetails, setUserDetails] = useState({
         id: null,
         name: "",
@@ -19,6 +19,7 @@ const OrdersDashboard = () => {
         updated_at: null,
     });
     const [admin, setAdmin] = useState(0);
+    const [raison, setRaison] = useState("");
 
     const GetOrders = async () => {
         try {
@@ -56,13 +57,9 @@ const OrdersDashboard = () => {
             } catch (error) {
                 setLoading(false);
                 if (error.response && error.response.status === 401) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Authentication Failed",
-                        text: "Please log in again.",
-                    }).then(() => {
-                        navigate("/");
-                    });
+                    toast.error("Session expiré .Veuillez se reconnecter");
+                    navigate("/");
+                    localStorage.removeItem("token");
                 } else {
                     console.error("Error fetching user details:", error);
                 }
@@ -75,9 +72,7 @@ const OrdersDashboard = () => {
 
     const AcceptOrder = (orderId) => {
         axiosClient
-            .put(`http://localhost:8000/api/accept-order/${orderId}`, {
-                status: "Accepté",
-            })
+            .put(`http://localhost:8000/api/accept-order/${orderId}`)
             .then((response) => {
                 GetOrders();
             })
@@ -88,7 +83,8 @@ const OrdersDashboard = () => {
     const RefuseOrder = (orderId) => {
         axiosClient
             .put(`http://localhost:8000/api/refuse-order/${orderId}`, {
-                status: "Refusé",
+                // status: "Refusé",
+                raison: raison,
             })
             .then((response) => {
                 GetOrders();
@@ -97,17 +93,22 @@ const OrdersDashboard = () => {
                 console.error("Error accepting order:", error);
             });
     };
+
     const ResetStatus = (orderId) => {
         axiosClient
-            .put(`http://localhost:8000/api/reset-order/${orderId}`, {
-                status: "pending",
-            })
+            .put(`http://localhost:8000/api/reset-order/${orderId}`)
             .then((response) => {
                 GetOrders();
             })
             .catch((error) => {
                 console.error("Error accepting order:", error);
             });
+    };
+
+    const handleClosePopUp = (e) => {
+        if (e.target.id === "ModelContainer") {
+            setPopup(false);
+        }
     };
 
     return (
@@ -164,11 +165,6 @@ const OrdersDashboard = () => {
                                         />
                                     </td>
                                     <td className="border px-4 py-2">
-                                        {/* {console.log(
-                                            "Order Status:",
-                                            order.status
-                                        )} */}
-
                                         {order.status === "pending" ? (
                                             <>
                                                 <button
@@ -182,11 +178,59 @@ const OrdersDashboard = () => {
                                                 <button
                                                     className="ml-4 bg-red-600 hover:bg-red-900 px-2 py-1 rounded text-white"
                                                     onClick={() =>
-                                                        RefuseOrder(order.id)
+                                                        setPopup(true)
                                                     }
                                                 >
                                                     Refuser
                                                 </button>
+                                                {popup && (
+                                                    <div
+                                                        id="ModelContainer"
+                                                        onClick={
+                                                            handleClosePopUp
+                                                        }
+                                                        className="fixed inset-0 bg-black flex justify-center items-center bg-opacity-20 backdrop-blur-sm"
+                                                    >
+                                                        <div className="p-2 bg-white w-10/12 md:w-1/2 lg:1/3 shadow-inner border-e-emerald-600 rounded-lg py-5">
+                                                            <div className="w-full p-3 justify-center items-center">
+                                                                <h2 className="font-semibold py-3 text-center text-xl">
+                                                                    Veuillez
+                                                                    donner la ou
+                                                                    les raisons
+                                                                    de refus
+                                                                </h2>
+                                                                <textarea
+                                                                    name="raison"
+                                                                    id=""
+                                                                    onChange={(
+                                                                        e
+                                                                    ) =>
+                                                                        setRaison(
+                                                                            e
+                                                                                .target
+                                                                                .value
+                                                                        )
+                                                                    }
+                                                                    cols="30"
+                                                                    rows="10"
+                                                                    className="w-full border-2 border-spacing-7"
+                                                                ></textarea>
+                                                                <div className="flex justify-center">
+                                                                    <button
+                                                                        className="bg-slate-900 text-white p-2 rounded-md right-0"
+                                                                        onClick={() =>
+                                                                            RefuseOrder(
+                                                                                order.id
+                                                                            )
+                                                                        }
+                                                                    >
+                                                                        Valider
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )}
                                                 <button className="ml-4 bg-emerald-400 hover:bg-green-700 px-2 py-1 rounded text-white">
                                                     <Link
                                                         to={`/admin/details-pet/${order.pet.id}`}
@@ -232,16 +276,7 @@ const OrdersDashboard = () => {
                     )}
                 </>
             ) : (
-                <>
-                    {!loading && (
-                        <>
-                            <h1>You don't have access</h1>
-                            <button>
-                                <Link to={"/"}>return</Link>
-                            </button>
-                        </>
-                    )}
-                </>
+                <>{!loading && <Unauthorized />}</>
             )}
         </div>
     );

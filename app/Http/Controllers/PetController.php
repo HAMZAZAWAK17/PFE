@@ -67,7 +67,7 @@ class PetController extends Controller
             'sexe'=>$request->sexe,
             'espece'=>$request->espece,
             'age'=>$request->age,
-            'sante'=>$request->sante,            
+            'sante'=>$request->sante,
         ]);
 
         return response()->json([

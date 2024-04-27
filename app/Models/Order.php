@@ -9,7 +9,7 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable=['status'];
+    protected $fillable=['status','raison'];
 
     public function pet()
     {

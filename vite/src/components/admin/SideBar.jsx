@@ -5,6 +5,9 @@ import { HiUsers } from "react-icons/hi2";
 import { MdOutlinePets } from "react-icons/md";
 import { GrUserWorker } from "react-icons/gr";
 import { ImExit } from "react-icons/im";
+import { AiFillFund } from "react-icons/ai";
+import { FaHotel } from "react-icons/fa";
+
 
 const SideBar = () => {
   const [hoveredMenu, setHoveredMenu] = useState(null);
@@ -13,34 +16,13 @@ const SideBar = () => {
   const [employeeCount, setEmployeeCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
 
-  // useEffect(() => {
-  //   // Fetch data for statistics
-  //   const fetchStatistics = async () => {
-  //     try {
-  //       const animalResponse = await fetch("http://localhost:8000/api/petlist");
-  //       const animalData = await animalResponse.json();
-  //       setAnimalCount(animalData.length);
-
-  //       const employeeResponse = await fetch("http://localhost:8000/api/team-list");
-  //       const employeeData = await employeeResponse.json();
-  //       setEmployeeCount(employeeData.length);
-
-  //       const userResponse = await fetch("http://localhost:8000/api/users-list");
-  //       const userData = await userResponse.json();
-  //       setUserCount(userData.length);
-  //     } catch (error) {
-  //       console.error("Error fetching statistics:", error);
-  //     }
-  //   };
-
-  //   fetchStatistics();
-  // }, []);
-
   const menus = [
-    { name: "dashboard", link: "/sidebar", icon: AiOutlineDashboard },
-    { name: "users", link: "/admin/users-dashboard", icon: HiUsers },
-    { name: "pets", link: "/admin-dashboard", icon: MdOutlinePets },
-    { name: "staff", link: "/admin/team-dashboard", icon: GrUserWorker },
+    { name: "Dashboard", link: "/sidebar", icon: AiOutlineDashboard },
+    { name: "Users", link: "/admin/users-dashboard", icon: HiUsers },
+    { name: "Pets", link: "/admin-dashboard", icon: MdOutlinePets },
+    { name: "Staff", link: "/admin/team-dashboard", icon: GrUserWorker },
+    { name: "Orders", link: "/admin/orders-dashboard", icon: AiFillFund },
+    { name: "Reservations", link: "/admin/reservations-dashboard", icon: FaHotel },
     { name: "exit", link: "/", icon: ImExit },
   ];
 

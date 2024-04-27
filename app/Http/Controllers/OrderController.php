@@ -16,7 +16,7 @@ class OrderController extends Controller
     {
         $this->middleware('verifyAuth');
     }
-    
+
     public function index()
     {
         $orders = Order::with(['user', 'pet'])->get();
@@ -32,7 +32,8 @@ class OrderController extends Controller
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'pet_id' => 'required|exists:pets,id',
-            'status'
+            'status',
+            'raison'
         ]);
 
         // Create a new order
@@ -42,13 +43,14 @@ class OrderController extends Controller
 
         $order->save();
 
-        $user = User::select('name', 'email', 'telephone','adresse')->find($order->user_id);
-        $pet = pet::select('nom', 'sexe', 'age','photo','description','espece','sante')->find($order->pet_id);
+        $user = User::select('name', 'email', 'telephone', 'adresse')->find($order->user_id);
+        $pet = pet::select('nom', 'sexe', 'age', 'photo', 'description', 'espece', 'sante')->find($order->pet_id);
 
         $data = [
             'order_id' => $order->id,
             'order' => $order->status,
             'user' => $user,
+            'raison' => $order->raison,
             'pet' => $pet,
         ];
 
@@ -69,7 +71,7 @@ class OrderController extends Controller
         }
 
         // Return the order details as JSON response
-        return response()->json(['order' => $order]);   
+        return response()->json(['order' => $order]);
     }
 
     /**
@@ -106,57 +108,54 @@ class OrderController extends Controller
 
     public function acceptOrder($id)
     {
-        // Find the order by ID
         $order = Order::find($id);
 
-        // If the order doesn't exist, return a 404 response
         if (!$order) {
             return response()->json(['error' => 'Order not found'], 404);
         }
 
-        // Update the status of the user associated with the order to 'approved'
         $order->update(['status' => 'Accepté']);
         $order->pet->update(['visibility' => false]);
 
-        // Return a success message
         return response()->json(['message' => 'Order accepted successfully']);
     }
 
-    public function refuseOrder($id)
+    public function refuseOrder(Request $request, $id)
     {
-        // Find the order by ID
         $order = Order::find($id);
 
-        // If the order doesn't exist, return a 404 response
         if (!$order) {
             return response()->json(['error' => 'Order not found'], 404);
         }
 
-        // Update the visibility of the pet associated with the order to false
-        // $order->pet->update(['visibility' => false]);
-        $order->update(['status' => 'Refusé']);
+        $request->validate([
+            'raison' => 'required|string',
+        ]);
+
+        $order->update([
+            'status' => 'Refusé',
+            'raison' => $request->input('raison'),
+        ]);
+
         $order->pet->update(['visibility' => true]);
 
-        // Return a success message
         return response()->json(['message' => 'Order refused successfully']);
     }
 
     public function reset($id)
     {
-        // Find the order by ID
         $order = Order::find($id);
 
-        // If the order doesn't exist, return a 404 response
         if (!$order) {
             return response()->json(['error' => 'Order not found'], 404);
         }
 
-        // Update the visibility of the pet associated with the order to false
         $order->pet->update(['visibility' => true]);
-        $order->update(['status' => 'pending']);
+        $order->update([
+            'status' => 'pending',
+            'raison' => 'Non spécifié',
+        ]);
 
-        // Return a success message
         return response()->json(['message' => 'Order reseted successfully']);
     }
-    
 }

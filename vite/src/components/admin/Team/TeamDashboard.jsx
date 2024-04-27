@@ -1,10 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaSearch } from "react-icons/fa";
-import Swal from "sweetalert2";
-import { elements } from "chart.js";
 import { axiosClient } from "../../api/axios";
+import toast from "react-hot-toast";
 
 const TeamDashboard = () => {
     const navigate = useNavigate();
@@ -66,13 +63,9 @@ const TeamDashboard = () => {
             } catch (error) {
                 setLoading(false);
                 if (error.response && error.response.status === 401) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Authentication Failed",
-                        text: "Please log in again.",
-                    }).then(() => {
-                        navigate("/");
-                    });
+                    toast.error("Session expiré .Veuillez se reconnecter");
+                    navigate("/");
+                    localStorage.removeItem("token");
                 } else {
                     console.error("Error fetching user details:", error);
                 }
@@ -83,32 +76,17 @@ const TeamDashboard = () => {
     }, []);
 
     const deleteMember = (id) => {
-        Swal.fire({
-            title: "Êtes-vous sûr?",
-            text: "Cette action est irréversible!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Oui, supprimer!",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axiosClient
-                    .delete(`http://localhost:8000/api/delete-member/${id}`)
-                    .then((response) => {
-                        setTeam(team.filter((member) => member.id !== id));
-                        GetTeam();
-                    })
-                    .catch((error) => {
-                        console.error("Error deleting pet:", error);
-                    });
-                Swal.fire(
-                    "Supprimé!",
-                    "Votre animal a été supprimé avec succès.",
-                    "success"
-                );
-            }
-        });
+        axiosClient
+            .delete(`http://localhost:8000/api/delete-member/${id}`)
+            .then((response) => {
+                setTeam(team.filter((member) => member.id !== id));
+                GetTeam();
+            })
+            .catch((error) => {
+                console.error("Error deleting pet:", error);
+                toast.error("Une error a occuré lors de suppression");
+            });
+        toast.success("Votre animal a été supprimé avec succès.");
     };
 
     const handleImageClick = (imageUrl) => {

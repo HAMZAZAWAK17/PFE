@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useMenu } from "../context/context";
+import { useMenu } from "../../context/context";
 import "./Navbar.css";
 import { useEffect, useState } from "react";
-import { axiosClient } from "../api/axios";
+import { axiosClient } from "../../api/axios";
 import { IoMdMenu, IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 
 export const navItems = [
@@ -83,8 +83,13 @@ const Navbar = () => {
                 ))}
             </nav>
             {isLoggedIn ? (
-                <div className="navbar-right mr-0 py-4 sm:flex hidden items-center justify-between">
-                    <div className="relative flex items-center">
+                <div className="navbar-right mr-0 py-4 sm:flex hidden items-center justify-between select-none">
+                    <div
+                        className="relative flex items-center cursor-pointer "
+                        onClick={() => {
+                            setIsDropdownOpen(!isDropdownOpen);
+                        }}
+                    >
                         <p className="text-white mt-4 mr-4 mb-4 inline-block">
                             Hello {userDetails.name}
                         </p>

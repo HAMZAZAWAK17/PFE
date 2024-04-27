@@ -73,7 +73,7 @@ const Reservation = () => {
                 ...formData,
                 date_fin: date_debut, // Set date_fin equal to date_debut
             });
-        } 
+        }
         // else {
         //     setError("error");
         // }
@@ -91,15 +91,11 @@ const Reservation = () => {
         const start = new Date(formData.date_debut);
         const end = new Date(formData.date_fin);
 
-        // Calculate the difference in milliseconds
         const diffInMilliseconds = end - start;
 
-        // Convert milliseconds to days
         const newDuree = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
 
-        // Calculate the new price based on the duration
-
-        let newPrix = newDuree * 20; // Assuming price is 20 per day
+        let newPrix = newDuree * 20;
         if (newPrix < 0) {
             newPrix = 0;
         }

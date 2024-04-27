@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import confirme from "./assets/confirmation.png"; // Importez votre image
+import confirme from "../assets/confirmation.png"; // Importez votre image
 
 const Confirmation = () => {
     const navigate = useNavigate();

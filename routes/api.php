@@ -40,7 +40,7 @@ Route::get('/users-list',[UserController::class,'index']);
 Route::get('/details-user/{id}', [UserController::class, 'show']);
 Route::delete('/delete-user/{id}',[UserController::class,'destroy']);
 
-// ---------------------------- Team ----------------------------
+// ------------------ ---------- Team ----------------------------
 Route::get('/team-list',[TeamController::class,'index']);
 Route::post('/add-member',[TeamController::class,'store']);
 Route::get('details-member/{id}',[TeamController::class,'show']);
@@ -60,6 +60,9 @@ Route::get('/reservation-list',[ReservationController::class,'index']);
 Route::post('/make-reservation',[ReservationController::class,'store']);
 Route::get('/details-reservation/{id}',[ReservationController::class,'show']);
 Route::delete('/delete-reservation/{id}',[ReservationController::class,'destroy']);
+Route::put('/accept-reservation/{id}',[ReservationController::class,'AcceptReservation']);
+Route::put('/refuse-reservation/{id}',[ReservationController::class,'refuseReservation']);
+Route::put('/reset-reservation/{id}',[ReservationController::class,'reset']);
 
 
 // ---------------------------- Auth ----------------------------

@@ -6,32 +6,31 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
 import { MenuProvider } from "./components/context/context";
-import Register from "./components/Register";
-import Login from "./components/Login";
-import axios from "axios";
-import Hero from "./components/Hero";
-import Animals from "./components/Animals";
-import About from "./components/About";
-import Contact from "./components/Contact";
-import AdminDashboard from "./components/admin/AdminDashboard";
-import AddPet from "./components/admin/AddPet";
-import EditPet from "./components/admin/EditPet";
-import Navbar from "./components/navbar/Navbar";
-import NavAdmin from "./components/admin/NavAdmin";
-import Details from "./components/admin/Details";
-import NotFound from "./NotFound";
-import UsersDashboard from "./components/admin/UsersDashboard";
-import Order from "./components/Order";
+import Register from "./components/auth/Register";
+import Login from "./components/auth/Login";
+import Hero from "./components/home/Hero";
+import Animals from "./components/home/Animals";
+import About from "./components/home/About";
+import Contact from "./components/home/Contact";
+import AdminDashboard from "./components/admin/pets/AdminDashboard";
+import AddPet from "./components/admin/pets/AddPet";
+import EditPet from "./components/admin/pets/EditPet";
+import Navbar from "./components/home/navbar/Navbar";
+import Details from "./components/admin/pets/Details";
+import NotFound from "./components/other/NotFound";
+import UsersDashboard from "./components/admin/users/UsersDashboard";
+import Order from "./components/order/Order";
 import SideBar from "./components/admin/SideBar";
 import OrdersDashboard from "./components/admin/orders/OrdersDashboard";
-import Confirmation from "./components/Confirmation";
-import SendMessage from "./components/SendMessage";
+import Confirmation from "./components/order/Confirmation";
+import SendMessage from "./components/home/SendMessage";
 import AddMember from "./components/admin/team/AddMember";
 import TeamDashboard from "./components/admin/team/TeamDashboard";
 import DetailsMember from "./components/admin/team/DetailsMember";
 import AccueilHotel from "./components/hotel/AccueilHotel";
 import Reservation from "./components/hotel/Reservation";
 import { Toaster } from "react-hot-toast";
+import ReservationDashboard from "./components/admin/reservation/ReservationDashboard";
 
 // axios.defaults.xsrfCookieName = "XSRF-TOKEN";
 // axios.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
@@ -159,7 +158,7 @@ root.render(
                         path="/admin/add-pet"
                         element={
                             <>
-                                <NavAdmin />
+                                <SideBar />
                                 <AddPet />
                             </>
                         }
@@ -169,7 +168,7 @@ root.render(
                         path="/admin/edit-pet/:petId"
                         element={
                             <>
-                                <NavAdmin />
+                                <SideBar />
                                 <EditPet />
                             </>
                         }
@@ -179,7 +178,7 @@ root.render(
                         path="/admin/details-pet/:petId"
                         element={
                             <>
-                                <NavAdmin />
+                                <SideBar />
                                 <Details />
                             </>
                         }
@@ -201,6 +200,16 @@ root.render(
                             <>
                                 <SideBar />
                                 <OrdersDashboard />
+                            </>
+                        }
+                    />
+
+                    <Route
+                        path="/admin/reservations-dashboard"
+                        element={
+                            <>
+                                <SideBar />
+                                <ReservationDashboard />
                             </>
                         }
                     />

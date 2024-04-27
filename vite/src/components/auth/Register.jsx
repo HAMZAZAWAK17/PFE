@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import signup from "./assets/signup.jpg";
+import signup from "../assets/signup.jpg";
 import { Link, useNavigate } from "react-router-dom";
-import { axiosClient } from "./api/axios";
+import { axiosClient } from "../api/axios";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 
@@ -80,7 +80,7 @@ const Register = () => {
                                     "Le prénom doit etre au moins 2 characteres",
                             },
                             pattern: {
-                                value: /^[a-zA-Z]+$/,
+                                value: /^[a-zA-ZÀ-ÿ\s'-]+$/,
                                 message: "Ce champ doit être alphabétique",
                             },
                         })}
@@ -142,12 +142,12 @@ const Register = () => {
                         })}
                         onBlur={() => trigger("adresse")}
                     />
-                </div>
                 {errors.adresse && (
                     <span className="text-red-500 text-sm">
                         {errors.adresse.message}
                     </span>
                 )}
+                </div>
                 <div className="mb-4">
                     <label
                         htmlFor="telephone"

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { axiosClient } from "./api/axios";
+import { axiosClient } from "../api/axios";
 import { useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 

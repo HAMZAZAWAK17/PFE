@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import emailjs from "@emailjs/browser";
-import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import sendmessage from "./assets/sendmessage.png";
+import sendmessage from "../assets/sendmessage.png";
+import toast from "react-hot-toast";
 
 export const SendMessage = () => {
     const form = useRef();
@@ -17,11 +17,7 @@ export const SendMessage = () => {
         const { user_name, user_email, message } = values;
 
         if (!user_name || !user_email || !message) {
-            Swal.fire({
-                icon: "error",
-                title: "Erreur",
-                text: "Veuillez remplir tous les champs !",
-            });
+            toast.success("Veuillez remplir tous les champs !");
             return;
         }
 
@@ -32,19 +28,11 @@ export const SendMessage = () => {
             })
             .then(
                 () => {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Succès",
-                        text: "Message envoyé avec succès !",
-                    });
+                    toast.success("Message envoyé avec succès !");
                     console.log("SUCCESS!");
                 },
                 (error) => {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Erreur",
-                        text: "Échec de l'envoi du message !",
-                    });
+                    toast.error("Échec de l'envoi du message !");
                     console.log("FAILED...", error.text);
                 }
             );

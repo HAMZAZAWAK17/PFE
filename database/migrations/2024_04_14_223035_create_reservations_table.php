@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('prix')->default(20);
             $table->integer('pet_count')->default(0);
             $table->string('status')->default('pending');
-            
+            $table->string('raison')->default('Non spécifié');
             
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
