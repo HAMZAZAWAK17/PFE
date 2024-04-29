@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,16 +15,17 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','adminlogin','register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'adminlogin', 'register']]);
     }
 
     /* Login API */
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(),
+        $validator = Validator::make(
+            $request->all(),
             [
-                'email'=>'required|string|email',
-                'password'=>'required|string'
+                'email' => 'required|string|email',
+                'password' => 'required|string'
             ]
         );
 
@@ -33,27 +36,27 @@ class AuthController extends Controller
         $cridentials = $request->only('email', 'password');
 
         $token = Auth::attempt($cridentials);
-        
-        if(!$token){
+
+        if (!$token) {
             return response()->json([
-                'status'=>'error',
-                'message'=>'unauthorized'
+                'status' => 'error',
+                'message' => 'unauthorized'
             ], 401);
         }
 
         $user = Auth::user();
-        
+
         return response()->json([
-            'status'=> 'success',
-            'user'=> $user,
-            'authorisation'=> [
+            'status' => 'success',
+            'user' => $user,
+            'authorisation' => [
                 'token' => $token,
                 'type' => 'bearer'
             ]
         ]);
     }
 
-    
+
     /* Register API */
     public function register(Request $request)
     {
@@ -95,5 +98,25 @@ class AuthController extends Controller
     public function userDetails()
     {
         return response()->json(auth()->user());
+    }
+
+    public function getUserOrders()
+    {
+        $user = auth()->user();
+
+        // Eager load the user and pet relationships
+        $orders = Order::with(['user', 'pet'])->where('user_id', $user->id)->get();
+
+        return response()->json($orders);
+    }
+
+    public function getUserReservations()
+    {
+        $user = auth()->user();
+
+        // Eager load the user relationship
+        $reservations = Reservation::with('user')->where('user_id', $user->id)->get();
+
+        return response()->json($reservations);
     }
 }

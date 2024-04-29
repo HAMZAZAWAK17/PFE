@@ -31,6 +31,9 @@ import AccueilHotel from "./components/hotel/AccueilHotel";
 import Reservation from "./components/hotel/Reservation";
 import { Toaster } from "react-hot-toast";
 import ReservationDashboard from "./components/admin/reservation/ReservationDashboard";
+import Profile from "./components/user/Profile";
+import Orders from "./components/user/Orders";
+import Reservations from "./components/user/Reservations";
 
 // axios.defaults.xsrfCookieName = "XSRF-TOKEN";
 // axios.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
@@ -41,30 +44,13 @@ root.render(
         <MenuProvider>
             <BrowserRouter>
                 <Routes>
+                    {/* ------------------- HOME ROUTE ------------------- */}
                     <Route
                         path="/"
                         element={
                             <>
                                 <Navbar />
                                 <App />
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/signup"
-                        element={
-                            <>
-                                <Navbar />
-                                <Register />
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/login"
-                        element={
-                            <>
-                                <Navbar />
-                                <Login />
                             </>
                         }
                     />
@@ -83,15 +69,6 @@ root.render(
                             <>
                                 <Navbar />
                                 <Animals />
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/order/:id"
-                        element={
-                            <>
-                                <Navbar />
-                                <Order />
                             </>
                         }
                     />
@@ -122,7 +99,29 @@ root.render(
                             </>
                         }
                     />
+                    {/* --------------------------------------------------- */}
 
+                    {/* ------------------- AUTH ROUTES ------------------- */}
+                    <Route
+                        path="/signup"
+                        element={
+                            <>
+                                <Navbar />
+                                <Register />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/login"
+                        element={
+                            <>
+                                <Navbar />
+                                <Login />
+                            </>
+                        }
+                    />
+
+                    {/* ------------------- HOTEL ROUTES ------------------- */}
                     <Route
                         path="/hotel"
                         element={
@@ -142,6 +141,7 @@ root.render(
                             </>
                         }
                     />
+                    {/* ---------------------------------------------------- */}
 
                     {/* ------------------- ADMIN ROUTES ------------------- */}
                     <Route
@@ -243,19 +243,58 @@ root.render(
                             </>
                         }
                     />
+                    {/* ---------------------------------------------------- */}
 
+                    {/* ------------------- ORDER ROUTES ------------------- */}
+                    <Route
+                        path="/order/:id"
+                        element={
+                            <>
+                                <Navbar />
+                                <Order />
+                            </>
+                        }
+                    />
                     <Route
                         path="/confirmation"
                         element={
                             <>
+                                <Navbar />
                                 <Confirmation />
                             </>
                         }
                     />
+                    {/* ---------------------------------------------------- */}
 
-                    <Route path="/SideBar" element={<SideBar />} />
-
-                    {/* ------------------------------------------ */}
+                    {/* ------------------- USER ROUTES ------------------- */}
+                    <Route
+                        path="/user/profile"
+                        element={
+                            <>
+                                <Navbar />
+                                <Profile />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/user/orders"
+                        element={
+                            <>
+                                <Navbar />
+                                <Orders />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/user/reservations"
+                        element={
+                            <>
+                                <Navbar />
+                                <Reservations />
+                            </>
+                        }
+                    />
+                    {/* ---------------------------------------------------- */}
 
                     <Route
                         path="/*"

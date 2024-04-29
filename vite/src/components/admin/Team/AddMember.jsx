@@ -30,7 +30,7 @@ const AddMember = () => {
                 }
 
                 const response = await axiosClient.get(
-                    "http://127.0.0.1:8000/api/user-detail",
+                    "http://127.0.0.1:8000/api/user-details",
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -67,7 +67,7 @@ const AddMember = () => {
                 "http://localhost:8000/api/add-member",
                 formData
             );
-            toast.success("votre Membre a été ajouté avec succès.");
+            toast.success("Votre Membre a été ajouté avec succès.");
             navigate("/admin/team-dashboard");
         } catch (error) {
             console.error("Error adding pet:", error);
@@ -149,6 +149,21 @@ const AddMember = () => {
                                 type="text"
                                 id="title"
                                 name="title"
+                                className="w-full border rounded px-3 py-2 mt-1"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label
+                                htmlFor="espece"
+                                className="block font-bold text-gray-700"
+                            >
+                                Téléphone:
+                            </label>
+                            <input
+                                type="number"
+                                id="telephone"
+                                name="telephone"
                                 className="w-full border rounded px-3 py-2 mt-1"
                                 required
                             />

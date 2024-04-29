@@ -45,7 +45,7 @@ const ReservationDashboard = () => {
                 }
 
                 const response = await axiosClient.get(
-                    "http://127.0.0.1:8000/api/user-detail"
+                    "http://127.0.0.1:8000/api/user-details"
                 );
                 setUserDetails(response.data);
                 setAdmin(response.data.admin);
@@ -106,10 +106,18 @@ const ReservationDashboard = () => {
             });
     };
 
-    const handleclosePopUp = (e) => {
+    const handleClosePopUp = (e) => {
         if (e.target.id === "ModelContainer") {
             setPopup(false);
         }
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
     };
 
     return (
@@ -144,22 +152,22 @@ const ReservationDashboard = () => {
                         <tbody>
                             {reservations.map((reservation) => (
                                 <tr key={reservation.id}>
-                                    <td className="border px-4 py-2">
+                                    <td className="border px-4 py-2 text-center">
                                         {reservation.nom}
                                     </td>
-                                    <td className="border px-4 py-2">
+                                    <td className="border px-4 py-2 text-center">
                                         {reservation.espece}
                                     </td>
-                                    <td className="border px-4 py-2">
-                                        {reservation.date_debut}
+                                    <td className="border px-4 py-2 text-center">
+                                        {formatDate(reservation.date_debut)}
                                     </td>
-                                    <td className="border px-4 py-2">
-                                        {reservation.date_fin}
+                                    <td className="border px-4 py-2 text-center">
+                                        {formatDate(reservation.date_fin)}
                                     </td>
-                                    <td className="border px-4 py-2">
+                                    <td className="border px-4 py-2 text-center">
                                         {reservation.duree}
                                     </td>
-                                    <td className="border px-4 py-2">
+                                    <td className="border px-4 py-2 text-center">
                                         {reservation.prix}
                                     </td>
                                     <td className="border px-4 py-2">

@@ -48,7 +48,7 @@ const UsersDashboard = () => {
                 }
 
                 const response = await axiosClient.get(
-                    "http://127.0.0.1:8000/api/user-detail",
+                    "http://127.0.0.1:8000/api/user-details",
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -76,7 +76,7 @@ const UsersDashboard = () => {
 
     const deleteUser = (id) => {
         axiosClient
-            .delete(`http://localhost:8000/api/delete-pet/${id}`)
+            .delete(`http://localhost:8000/api/delete-user/${id}`)
             .then((response) => {
                 setUsers(users.filter((user) => user.id !== id));
                 GetUsers();
@@ -84,7 +84,7 @@ const UsersDashboard = () => {
             .catch((error) => {
                 console.error("Error deleting pet:", error);
             });
-        toast.success("Votre animal a été supprimé avec succès.");
+        toast.success("L'utilisateur a été supprimé avec succès.");
     };
 
     const inputRef = useRef();

@@ -46,7 +46,7 @@ const AdminDashboard = () => {
                 }
 
                 const response = await axiosClient.get(
-                    "http://127.0.0.1:8000/api/user-detail"
+                    "http://127.0.0.1:8000/api/user-details"
                 );
                 setUserDetails(response.data);
                 setAdmin(response.data.admin);

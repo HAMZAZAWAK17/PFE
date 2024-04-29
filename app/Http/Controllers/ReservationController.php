@@ -166,4 +166,5 @@ class ReservationController extends Controller
 
         return response()->json(['message' => 'Order reseted successfully']);
     }
+
 }

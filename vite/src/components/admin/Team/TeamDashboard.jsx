@@ -26,11 +26,6 @@ const TeamDashboard = () => {
 
             const { data } = await axiosClient.get(
                 "http://localhost:8000/api/team-list",
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
             );
             setTeam(data.team);
             setIsLoading(false);
@@ -50,7 +45,7 @@ const TeamDashboard = () => {
                 }
 
                 const response = await axiosClient.get(
-                    "http://127.0.0.1:8000/api/user-detail",
+                    "http://127.0.0.1:8000/api/user-details",
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -86,7 +81,7 @@ const TeamDashboard = () => {
                 console.error("Error deleting pet:", error);
                 toast.error("Une error a occuré lors de suppression");
             });
-        toast.success("Votre animal a été supprimé avec succès.");
+        toast.success("Votre membre a été supprimé avec succès.");
     };
 
     const handleImageClick = (imageUrl) => {
@@ -128,6 +123,7 @@ const TeamDashboard = () => {
                                 <th className="border px-4 py-2">Nom</th>
                                 <th className="border px-4 py-2">Image</th>
                                 <th className="border px-4 py-2">Fonction</th>
+                                <th className="border px-4 py-2">Téléphone</th>
                                 <th className="border px-4 py-2">
                                     Description
                                 </th>
@@ -156,6 +152,9 @@ const TeamDashboard = () => {
                                     </td>
                                     <td className="border px-4 py-2">
                                         {member.title}
+                                    </td>
+                                    <td className="border px-4 py-2">
+                                        {member.telephone}
                                     </td>
                                     <td className="border px-4 py-2">
                                         {member.description.substring(0, 35)}{" "}

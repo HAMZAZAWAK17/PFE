@@ -12,7 +12,7 @@ const Login = () => {
     useEffect(() => {
         if (token) {
             navigate("/");
-            localStorage.removeItem("token");
+            toast.error("Vous etes déja inscris");
         }
     }, [token, navigate]);
 

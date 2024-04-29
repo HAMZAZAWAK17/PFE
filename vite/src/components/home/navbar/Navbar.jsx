@@ -47,14 +47,16 @@ const Navbar = () => {
         const fetchUserDetails = async () => {
             try {
                 const response = await axiosClient.get(
-                    "http://127.0.0.1:8000/api/user-detail"
+                    "http://127.0.0.1:8000/api/user-details"
                 );
                 setUserDetails(response.data);
+                const token = localStorage.getItem("token");
                 if (token) {
                     setIsLoggedIn(true);
                 }
             } catch (error) {
                 console.log("You are Not logged In");
+                const token = localStorage.removeItem("token");
             }
         };
         fetchUserDetails();
@@ -91,7 +93,7 @@ const Navbar = () => {
                         }}
                     >
                         <p className="text-white mt-4 mr-4 mb-4 inline-block">
-                            Hello {userDetails.name}
+                            Hello {userDetails.name.substring(0, 10)}...
                         </p>
                         <button
                             className="text-white focus:outline-none inline-block"
@@ -110,7 +112,7 @@ const Navbar = () => {
                             <div className="absolute bg-white top-full mt-1 rounded shadow-md">
                                 <ul>
                                     <li className="py-2 px-4 hover:bg-gray-200 w-full">
-                                        <Link to={""}>Profile</Link>
+                                        <Link to={"/user/profile"} className="w-full">Profile</Link>
                                     </li>
                                     <li className="py-2 px-4 hover:bg-gray-200">
                                         <Link>Orders</Link>

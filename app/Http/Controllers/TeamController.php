@@ -32,6 +32,7 @@ class TeamController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|',
             'description'=>'required',
             'title'=>'required',
+            'telephone'=>'required'
         ]);
 
         // Handle file upload
@@ -44,7 +45,8 @@ class TeamController extends Controller
             'nom'=>$request->nom,
             'image'=>$filepath, 
             'description'=>$request->description,
-            'title'=>$request->title,          
+            'title'=>$request->title, 
+            'telephone'=>$request->telephone         
         ]);
 
         return response()->json([

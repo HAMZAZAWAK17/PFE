@@ -37,7 +37,7 @@ const Order = () => {
             }
 
             const response = await axiosClient.get(
-                "http://127.0.0.1:8000/api/user-detail",
+                "http://127.0.0.1:8000/api/user-details",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

@@ -46,9 +46,9 @@
 
 // export default Details;
 
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { axiosClient } from "../../api/axios";
 
 const Details = () => {
   const { petId } = useParams();
@@ -63,7 +63,7 @@ const Details = () => {
   });
 
   useEffect(() => {
-    axios
+    axiosClient
       .get(`http://localhost:8000/api/details-pets/${petId}`)
       .then((response) => {
         setData(response.data.pet);

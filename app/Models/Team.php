@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Team extends Model
 {
-    protected $fillable = ['nom','image','title','description'];
+    protected $fillable = ['nom','image','title','description','telephone'];
     use HasFactory;
 }
