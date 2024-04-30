@@ -48,12 +48,7 @@ const UsersDashboard = () => {
                 }
 
                 const response = await axiosClient.get(
-                    "http://127.0.0.1:8000/api/user-details",
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
+                    "http://127.0.0.1:8000/api/user-details"
                 );
                 setUserDetails(response.data);
                 setAdmin(response.data.admin);
@@ -69,7 +64,6 @@ const UsersDashboard = () => {
                 }
             }
         };
-
         fetchUserDetails();
         GetUsers();
     }, []);
@@ -121,8 +115,8 @@ const UsersDashboard = () => {
                                 name="search"
                                 ref={inputRef}
                                 onChange={(e) => setSearch(e.target.value)}
-                                className="focus:border-none border outline-none"
-                                placeholder="rechercher votre animal"
+                                className="focus:border-none border rounded-md py-1 px-1 outline-none"
+                                placeholder="Rechercher L'utilisateur"
                                 id=""
                             />
                         </span>
@@ -186,7 +180,7 @@ const UsersDashboard = () => {
 
                                             <button className="ml-4 bg-emerald-400 hover:bg-orange-500 px-2 py-1 rounded text-white">
                                                 <Link
-                                                    to={`/admin/details-pet/${user.id}`}
+                                                    to={`/admin/user-details/${user.id}`}
                                                 >
                                                     Détails
                                                 </Link>

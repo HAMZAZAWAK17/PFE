@@ -4,6 +4,7 @@ import "./Navbar.css";
 import { useEffect, useState } from "react";
 import { axiosClient } from "../../api/axios";
 import { IoMdMenu, IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
+import { useAuth } from "../../context/AuthContext";
 
 export const navItems = [
     {
@@ -29,9 +30,10 @@ export const navItems = [
 ];
 
 const Navbar = () => {
-    const navigate = useNavigate();
     const token = localStorage.getItem("token");
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate();
+    // const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const { openMenu, closeMenu, isMenuOpen } = useMenu();
     const [userDetails, setUserDetails] = useState({
         id: null,
@@ -43,6 +45,7 @@ const Navbar = () => {
         updated_at: null,
     });
 
+    const { isLoggedIn, logout } = useAuth();
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
@@ -52,11 +55,13 @@ const Navbar = () => {
                 setUserDetails(response.data);
                 const token = localStorage.getItem("token");
                 if (token) {
-                    setIsLoggedIn(true);
+                    login();
                 }
+                setIsLoading(false);
             } catch (error) {
                 console.log("You are Not logged In");
-                const token = localStorage.removeItem("token");
+                // const token = localStorage.removeItem("token");
+                setIsLoading(false);
             }
         };
         fetchUserDetails();
@@ -84,7 +89,14 @@ const Navbar = () => {
                     </Link>
                 ))}
             </nav>
-            {isLoggedIn ? (
+            {isLoading && (
+                <div className="flex flex-row gap-2 ml-4 py-8">
+                    <div className="w-4 h-4 rounded-full bg-amber-400 animate-bounce [animation-delay:.7s]"></div>
+                    <div className="w-4 h-4 rounded-full bg-amber-400 animate-bounce [animation-delay:.3s]"></div>
+                    <div className="w-4 h-4 rounded-full bg-amber-400 animate-bounce [animation-delay:.7s]"></div>
+                </div>
+            )}
+            {token && !isLoading ? (
                 <div className="navbar-right mr-0 py-4 sm:flex hidden items-center justify-between select-none">
                     <div
                         className="relative flex items-center cursor-pointer "
@@ -112,13 +124,22 @@ const Navbar = () => {
                             <div className="absolute bg-white top-full mt-1 rounded shadow-md">
                                 <ul>
                                     <li className="py-2 px-4 hover:bg-gray-200 w-full">
-                                        <Link to={"/user/profile"} className="w-full">Profile</Link>
+                                        <Link
+                                            to={"/user/profile"}
+                                            className="w-full"
+                                        >
+                                            Profile
+                                        </Link>
                                     </li>
                                     <li className="py-2 px-4 hover:bg-gray-200">
-                                        <Link>Orders</Link>
+                                        <Link to={"/user/orders"}>
+                                            Demandes
+                                        </Link>
                                     </li>
                                     <li className="py-2 px-4 hover:bg-gray-200">
-                                        <Link>Reservations</Link>
+                                        <Link to={"/user/reservations"}>
+                                            Reservations
+                                        </Link>
                                     </li>
                                     <li className="py-2 px-4 text-black hover:bg-red-600 hover:text-white">
                                         <button
@@ -127,7 +148,7 @@ const Navbar = () => {
                                                 localStorage.removeItem(
                                                     "token"
                                                 );
-                                                setIsLoggedIn(false);
+                                                logout;
                                                 navigate("/");
                                             }}
                                         >
@@ -140,18 +161,22 @@ const Navbar = () => {
                     </div>
                 </div>
             ) : (
-                <div className="navbar-right mr-0 sm:flex hidden items-center justify-between">
-                    <Link to="/signup">
-                        <button className="select-none bg-amber-400 hover:bg-white hover:text-black px-4 pt-2.5 pb-2.5 rounded-3xl mr-4 text-black font-500 text-14 py-7 px-15 rounded-5">
-                            Register
-                        </button>
-                    </Link>
-                    <Link to="/login">
-                        <button className="select-none bg-transparent border-0 text-white hover:text-amber-500 font-500 text-14 py-7 px-15 rounded-5">
-                            Log in
-                        </button>
-                    </Link>
-                </div>
+                <>
+                    {!isLoading && (
+                        <div className="navbar-right mr-0 sm:flex hidden items-center justify-between">
+                            <Link to="/signup">
+                                <button className="select-none bg-amber-400 hover:bg-white hover:text-black px-4 pt-2.5 pb-2.5 rounded-3xl mr-4 text-black font-500 text-14 py-7 px-15 rounded-5">
+                                    Register
+                                </button>
+                            </Link>
+                            <Link to="/login">
+                                <button className="select-none bg-transparent border-0 text-white hover:text-amber-500 font-500 text-14 py-7 px-15 rounded-5">
+                                    Log in
+                                </button>
+                            </Link>
+                        </div>
+                    )}
+                </>
             )}
             <div className="navbar-right mr-0 sm:hidden flex items-center justify-between">
                 {isMenuOpen ? (

@@ -78,7 +78,7 @@ const Profile = () => {
                                 </h1>{" "}
                             </div>
                             <div>
-                                <button className="text-xs text-rose-600 hover:bg-white font-bold border-2 py-2 px-3 bg-red-300 border-red-400" onClick={()=>deleteUser(userInfos.id)}>
+                                <button className="text-xs text-rose-600 hover:bg-white duration-300 font-bold border-2 py-2 px-3 bg-red-300 border-red-400" onClick={()=>deleteUser(userInfos.id)}>
                                     Supprimer Compte
                                 </button>
                             </div>

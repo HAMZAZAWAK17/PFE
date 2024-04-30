@@ -12,11 +12,11 @@ const Hero = () => {
 
     const options = {
       strings: [
-        "Accueillez un nouveau membre dans votre famille.",
-        "Adoptez votre compagnon"
-      ], // Utilisez la phrase comme première chaîne de caractères dans le tableau strings
-      typeSpeed: 50, // Vitesse de frappe des caractères
-      backSpeed: 50, // Vitesse de suppression des caractères
+        "Bonne Santé",
+        "Bon Service",
+      ], 
+      typeSpeed: 100, // Vitesse de frappe des caractères
+      backSpeed: 80, // Vitesse de suppression des caractères
       loop: true // Boucler l'animation
     };
 

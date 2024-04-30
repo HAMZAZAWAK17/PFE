@@ -4,6 +4,7 @@ import axios from "axios";
 import signup from "../assets/signup.jpg";
 import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -21,6 +22,7 @@ const Login = () => {
         email: "",
         password: "",
     });
+
     const [userDetails, setUserDetails] = useState({
         id: null,
         name: "",
@@ -47,18 +49,18 @@ const Login = () => {
         trigger,
     } = useForm();
 
+    const { login } = useAuth();
     const Submit = async (data) => {
         try {
             const response = await axios.post(
                 "http://127.0.0.1:8000/api/login",
                 data
             );
-
             const token = response.data.authorisation.token;
-
             localStorage.setItem("token", token);
             const currentPath = localStorage.getItem("CurrentPath");
             toast.success("Connecté avec succes !");
+            login();
             console.log(currentPath);
             if (currentPath) {
                 navigate(currentPath);

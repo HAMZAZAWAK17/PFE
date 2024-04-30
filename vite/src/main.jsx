@@ -1,5 +1,3 @@
-//main.jsx
-
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -31,281 +29,292 @@ import AccueilHotel from "./components/hotel/AccueilHotel";
 import Reservation from "./components/hotel/Reservation";
 import { Toaster } from "react-hot-toast";
 import ReservationDashboard from "./components/admin/reservation/ReservationDashboard";
+import Userdetails from "./components/admin/users/Userdetails";
 import Profile from "./components/user/Profile";
 import Orders from "./components/user/Orders";
 import Reservations from "./components/user/Reservations";
-
-// axios.defaults.xsrfCookieName = "XSRF-TOKEN";
-// axios.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
+import { AuthProvider } from "./components/context/AuthContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
         <MenuProvider>
-            <BrowserRouter>
-                <Routes>
-                    {/* ------------------- HOME ROUTE ------------------- */}
-                    <Route
-                        path="/"
-                        element={
-                            <>
-                                <Navbar />
-                                <App />
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/home"
-                        element={
-                            <>
-                                <Navbar />
-                                <Hero />
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/pets"
-                        element={
-                            <>
-                                <Navbar />
-                                <Animals />
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/about"
-                        element={
-                            <>
-                                <Navbar />
-                                <About />
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/contact"
-                        element={
-                            <>
-                                <Navbar />
-                                <Contact />
-                            </>
-                        }
-                    />
+            <AuthProvider>
+                <BrowserRouter>
+                    <Routes>
+                        {/* ------------------- HOME ROUTE ------------------- */}
+                        <Route
+                            path="/"
+                            element={
+                                <>
+                                    <Navbar />
+                                    <App />
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/home"
+                            element={
+                                <>
+                                    <Navbar />
+                                    <Hero />
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/pets"
+                            element={
+                                <>
+                                    <Navbar />
+                                    <Animals />
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/about"
+                            element={
+                                <>
+                                    <Navbar />
+                                    <About />
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/contact"
+                            element={
+                                <>
+                                    <Navbar />
+                                    <Contact />
+                                </>
+                            }
+                        />
 
-                    <Route
-                        path="/sendmessage"
-                        element={
-                            <>
-                                <SendMessage />
-                            </>
-                        }
-                    />
-                    {/* --------------------------------------------------- */}
+                        <Route
+                            path="/sendmessage"
+                            element={
+                                <>
+                                    <SendMessage />
+                                </>
+                            }
+                        />
+                        {/* --------------------------------------------------- */}
 
-                    {/* ------------------- AUTH ROUTES ------------------- */}
-                    <Route
-                        path="/signup"
-                        element={
-                            <>
-                                <Navbar />
-                                <Register />
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/login"
-                        element={
-                            <>
-                                <Navbar />
-                                <Login />
-                            </>
-                        }
-                    />
+                        {/* ------------------- AUTH ROUTES ------------------- */}
+                        <Route
+                            path="/signup"
+                            element={
+                                <>
+                                    <Navbar />
+                                    <Register />
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/login"
+                            element={
+                                <>
+                                    <Navbar />
+                                    <Login />
+                                </>
+                            }
+                        />
 
-                    {/* ------------------- HOTEL ROUTES ------------------- */}
-                    <Route
-                        path="/hotel"
-                        element={
-                            <>
-                                <Navbar />
-                                <AccueilHotel />
-                            </>
-                        }
-                    />
+                        {/* ------------------- HOTEL ROUTES ------------------- */}
+                        <Route
+                            path="/hotel"
+                            element={
+                                <>
+                                    <Navbar />
+                                    <AccueilHotel />
+                                </>
+                            }
+                        />
 
-                    <Route
-                        path="/hotel/reserve"
-                        element={
-                            <>
-                                <Navbar />
-                                <Reservation />
-                            </>
-                        }
-                    />
-                    {/* ---------------------------------------------------- */}
+                        <Route
+                            path="/hotel/reserve"
+                            element={
+                                <>
+                                    <Navbar />
+                                    <Reservation />
+                                </>
+                            }
+                        />
+                        {/* ---------------------------------------------------- */}
 
-                    {/* ------------------- ADMIN ROUTES ------------------- */}
-                    <Route
-                        path="/admin-dashboard"
-                        element={
-                            <>
-                                <SideBar />
-                                <AdminDashboard />
-                            </>
-                        }
-                    />
+                        {/* ------------------- ADMIN ROUTES ------------------- */}
+                        <Route
+                            path="/admin-dashboard"
+                            element={
+                                <>
+                                    <SideBar />
+                                    <AdminDashboard />
+                                </>
+                            }
+                        />
 
-                    <Route
-                        path="/admin/add-pet"
-                        element={
-                            <>
-                                <SideBar />
-                                <AddPet />
-                            </>
-                        }
-                    />
+                        <Route
+                            path="/admin/add-pet"
+                            element={
+                                <>
+                                    <SideBar />
+                                    <AddPet />
+                                </>
+                            }
+                        />
 
-                    <Route
-                        path="/admin/edit-pet/:petId"
-                        element={
-                            <>
-                                <SideBar />
-                                <EditPet />
-                            </>
-                        }
-                    />
+                        <Route
+                            path="/admin/edit-pet/:petId"
+                            element={
+                                <>
+                                    <SideBar />
+                                    <EditPet />
+                                </>
+                            }
+                        />
 
-                    <Route
-                        path="/admin/details-pet/:petId"
-                        element={
-                            <>
-                                <SideBar />
-                                <Details />
-                            </>
-                        }
-                    />
+                        <Route
+                            path="/admin/details-pet/:petId"
+                            element={
+                                <>
+                                    <SideBar />
+                                    <Details />
+                                </>
+                            }
+                        />
 
-                    <Route
-                        path="/admin/users-dashboard"
-                        element={
-                            <>
-                                <SideBar />
-                                <UsersDashboard />
-                            </>
-                        }
-                    />
+                        <Route
+                            path="/admin/users-dashboard"
+                            element={
+                                <>
+                                    <SideBar />
+                                    <UsersDashboard />
+                                </>
+                            }
+                        />
 
-                    <Route
-                        path="/admin/orders-dashboard"
-                        element={
-                            <>
-                                <SideBar />
-                                <OrdersDashboard />
-                            </>
-                        }
-                    />
+                        <Route
+                            path="/admin/user-details/:userId"
+                            element={
+                                <>
+                                    <SideBar />
+                                    <Userdetails />
+                                </>
+                            }
+                        />
 
-                    <Route
-                        path="/admin/reservations-dashboard"
-                        element={
-                            <>
-                                <SideBar />
-                                <ReservationDashboard />
-                            </>
-                        }
-                    />
+                        <Route
+                            path="/admin/orders-dashboard"
+                            element={
+                                <>
+                                    <SideBar />
+                                    <OrdersDashboard />
+                                </>
+                            }
+                        />
 
-                    <Route
-                        path="/admin/team-dashboard"
-                        element={
-                            <>
-                                <SideBar />
-                                <TeamDashboard />
-                            </>
-                        }
-                    />
+                        <Route
+                            path="/admin/reservations-dashboard"
+                            element={
+                                <>
+                                    <SideBar />
+                                    <ReservationDashboard />
+                                </>
+                            }
+                        />
 
-                    <Route
-                        path="/admin/add-member"
-                        element={
-                            <>
-                                <SideBar />
-                                <AddMember />
-                            </>
-                        }
-                    />
+                        <Route
+                            path="/admin/team-dashboard"
+                            element={
+                                <>
+                                    <SideBar />
+                                    <TeamDashboard />
+                                </>
+                            }
+                        />
 
-                    <Route
-                        path="/admin/details-member/:memberId"
-                        element={
-                            <>
-                                <SideBar />
-                                <DetailsMember />
-                            </>
-                        }
-                    />
-                    {/* ---------------------------------------------------- */}
+                        <Route
+                            path="/admin/add-member"
+                            element={
+                                <>
+                                    <SideBar />
+                                    <AddMember />
+                                </>
+                            }
+                        />
 
-                    {/* ------------------- ORDER ROUTES ------------------- */}
-                    <Route
-                        path="/order/:id"
-                        element={
-                            <>
-                                <Navbar />
-                                <Order />
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/confirmation"
-                        element={
-                            <>
-                                <Navbar />
-                                <Confirmation />
-                            </>
-                        }
-                    />
-                    {/* ---------------------------------------------------- */}
+                        <Route
+                            path="/admin/details-member/:memberId"
+                            element={
+                                <>
+                                    <SideBar />
+                                    <DetailsMember />
+                                </>
+                            }
+                        />
+                        {/* ---------------------------------------------------- */}
 
-                    {/* ------------------- USER ROUTES ------------------- */}
-                    <Route
-                        path="/user/profile"
-                        element={
-                            <>
-                                <Navbar />
-                                <Profile />
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/user/orders"
-                        element={
-                            <>
-                                <Navbar />
-                                <Orders />
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/user/reservations"
-                        element={
-                            <>
-                                <Navbar />
-                                <Reservations />
-                            </>
-                        }
-                    />
-                    {/* ---------------------------------------------------- */}
+                        {/* ------------------- ORDER ROUTES ------------------- */}
+                        <Route
+                            path="/order/:id"
+                            element={
+                                <>
+                                    <Navbar />
+                                    <Order />
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/confirmation"
+                            element={
+                                <>
+                                    <Navbar />
+                                    <Confirmation />
+                                </>
+                            }
+                        />
+                        {/* ---------------------------------------------------- */}
 
-                    <Route
-                        path="/*"
-                        element={
-                            <>
-                                <NotFound />
-                            </>
-                        }
-                    />
-                </Routes>
-            </BrowserRouter>
+                        {/* ------------------- USER ROUTES ------------------- */}
+                        <Route
+                            path="/user/profile"
+                            element={
+                                <>
+                                    <Navbar />
+                                    <Profile />
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/user/orders"
+                            element={
+                                <>
+                                    <Navbar />
+                                    <Orders />
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/user/reservations"
+                            element={
+                                <>
+                                    <Navbar />
+                                    <Reservations />
+                                </>
+                            }
+                        />
+                        {/* ---------------------------------------------------- */}
+
+                        <Route
+                            path="/*"
+                            element={
+                                <>
+                                    <NotFound />
+                                </>
+                            }
+                        />
+                    </Routes>
+                </BrowserRouter>
+            </AuthProvider>
             <Toaster position="top-center" />
         </MenuProvider>
     </React.StrictMode>
