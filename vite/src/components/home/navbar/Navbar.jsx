@@ -32,7 +32,6 @@ export const navItems = [
 const Navbar = () => {
     const token = localStorage.getItem("token");
     const navigate = useNavigate();
-    // const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const { openMenu, closeMenu, isMenuOpen } = useMenu();
     const [userDetails, setUserDetails] = useState({
@@ -52,8 +51,8 @@ const Navbar = () => {
                 const response = await axiosClient.get(
                     "http://127.0.0.1:8000/api/user-details"
                 );
-                setUserDetails(response.data);
                 const token = localStorage.getItem("token");
+                setUserDetails(response.data);
                 if (token) {
                     login();
                 }
@@ -67,7 +66,6 @@ const Navbar = () => {
         fetchUserDetails();
     }, []);
 
-    const [hoveredItem, setHoveredItem] = useState(null);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     return (

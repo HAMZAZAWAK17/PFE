@@ -14,7 +14,6 @@ const Profile = () => {
                 const response = await axiosClient.get("/user-details");
                 setUserInfos(response.data);
             } catch (error) {
-                // Handle error
                 console.error("Error fetching user details:", error);
             }
         };
@@ -26,8 +25,8 @@ const Profile = () => {
         axiosClient
             .delete(`http://localhost:8000/api/delete-user/${id}`)
             .then((response) => {
-                navigate('/')
-                
+                navigate("/");
+                localStorage.removeItem("token");
             })
             .catch((error) => {
                 console.error("Error deleting pet:", error);
@@ -50,9 +49,9 @@ const Profile = () => {
                     <>
                         <div className="flex items-center justify-center pt-10 flex-col">
                             {/* <img
-                        src="https://i.pinimg.com/originals/a8/bc/90/a8bc90ea196737604770aaf9c2d56a51.jpg"
-                        className="rounded-full w-32"
-                        /> */}
+                                src="https://i.pinimg.com/originals/a8/bc/90/a8bc90ea196737604770aaf9c2d56a51.jpg"
+                                className="rounded-full w-32"
+                            /> */}
                             <h1 className="text-gray-800 font-semibold text-4xl mt-5">
                                 BIENVENUE {userInfos.name.toUpperCase()}
                             </h1>
@@ -78,36 +77,41 @@ const Profile = () => {
                                 </h1>{" "}
                             </div>
                             <div>
-                                <button className="text-xs text-rose-600 hover:bg-white duration-300 font-bold border-2 py-2 px-3 bg-red-300 border-red-400" onClick={()=>deleteUser(userInfos.id)}>
+                                <button
+                                    className="text-xs text-rose-600 hover:bg-white duration-300 font-bold border-2 py-2 px-3 bg-red-300 border-red-400"
+                                    onClick={() => deleteUser(userInfos.id)}
+                                >
                                     Supprimer Compte
                                 </button>
                             </div>
                         </div>
                         {/* <div className="flex items-center justify-center mt-3 mb-6 flex-col">
-                    <h1 className="text-xs text-gray-500">Get Connected</h1>
-                    <div className="flex mt-2">
-                        <img
-                            src="https://www.iconsdb.com/icons/preview/gray/facebook-xxl.png"
-                            alt=""
-                            className="w-6 border-2 p-1 rounded-full mr-3"
-                        />
-                        <img
-                            src="https://www.iconsdb.com/icons/preview/gray/twitter-xxl.png"
-                            alt=""
-                            className="w-6 border-2 p-1 rounded-full mr-3"
-                        />
-                        <img
-                            src="https://www.iconsdb.com/icons/preview/gray/google-plus-xxl.png"
-                            alt=""
-                            className="w-6 border-2 p-1 rounded-full mr-3"
-                        />
-                        <img
-                            src="https://www.iconsdb.com/icons/preview/gray/instagram-6-xxl.png"
-                            alt=""
-                            className="w-6 border-2 p-1 rounded-full"
-                        />
-                    </div>
-                </div> */}
+                            <h1 className="text-xs text-gray-500">
+                                Get Connected
+                            </h1>
+                            <div className="flex mt-2">
+                                <img
+                                    src="https://www.iconsdb.com/icons/preview/gray/facebook-xxl.png"
+                                    alt=""
+                                    className="w-6 border-2 p-1 rounded-full mr-3"
+                                />
+                                <img
+                                    src="https://www.iconsdb.com/icons/preview/gray/twitter-xxl.png"
+                                    alt=""
+                                    className="w-6 border-2 p-1 rounded-full mr-3"
+                                />
+                                <img
+                                    src="https://www.iconsdb.com/icons/preview/gray/google-plus-xxl.png"
+                                    alt=""
+                                    className="w-6 border-2 p-1 rounded-full mr-3"
+                                />
+                                <img
+                                    src="https://www.iconsdb.com/icons/preview/gray/instagram-6-xxl.png"
+                                    alt=""
+                                    className="w-6 border-2 p-1 rounded-full"
+                                />
+                            </div>
+                        </div> */}
                     </>
                 )}
             </div>

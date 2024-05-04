@@ -8,6 +8,7 @@ const TeamDashboard = () => {
     const [team, setTeam] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [loading, setLoading] = useState(true);
+    const [popup, setPopup] = useState(false);
     const [userDetails, setUserDetails] = useState({
         id: null,
         name: "",
@@ -25,7 +26,7 @@ const TeamDashboard = () => {
             const token = localStorage.getItem("token");
 
             const { data } = await axiosClient.get(
-                "http://localhost:8000/api/team-list",
+                "http://localhost:8000/api/team-list"
             );
             setTeam(data.team);
             setIsLoading(false);
@@ -91,6 +92,12 @@ const TeamDashboard = () => {
     // Fonction pour fermer l'image agrandie
     const closeImage = () => {
         setSelectedImage(null);
+    };
+
+    const handleClosePopUp = (e) => {
+        if (e.target.id === "ModelContainer") {
+            setPopup(false);
+        }
     };
 
     return (
@@ -164,11 +171,50 @@ const TeamDashboard = () => {
                                         <button
                                             className="bg-red-500 hover:bg-red-600 text-white ml-7 px-2 py-1 rounded"
                                             onClick={() =>
-                                                deleteMember(member.id)
+                                                setPopup(true)
                                             }
                                         >
                                             Supprimer
                                         </button>
+                                        {popup && (
+                                                <div
+                                                    id="ModelContainer"
+                                                    onClick={handleClosePopUp}
+                                                    className="fixed inset-0 bg-black flex justify-center items-center bg-opacity-20 backdrop-blur-sm"
+                                                >
+                                                    <div className="p-2 bg-white w-10/12 md:w-1/2 lg:1/3 shadow-inner border-e-emerald-600 rounded-lg py-5">
+                                                        <div className="w-full p-3 justify-center items-center">
+                                                            <h2 className="font-semibold py-3 text-center text-xl">
+                                                                Voulez vous
+                                                                vraiment
+                                                                supprimer cet
+                                                                élément
+                                                            </h2>
+                                                            <p className="w-full text-center py-5">Cet action est défintive</p>
+                                                            <div className="flex justify-center">
+                                                                <button
+                                                                    className="bg-red-700 mr-10 text-white p-2 rounded-md right-0"
+                                                                    onClick={() =>
+                                                                        deleteMember(member.id)
+                                                                    }
+                                                                >
+                                                                    Supprimer
+                                                                </button>
+                                                                <button
+                                                                    className="bg-slate-900 text-white p-2 rounded-md right-0"
+                                                                    onClick={() =>
+                                                                        setPopup(
+                                                                            false
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    Annuler
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
                                         <button className="ml-4 bg-emerald-400 hover:bg-orange-500 px-2 py-1 rounded text-white">
                                             <Link
                                                 to={`/admin/details-member/${member.id}`}

@@ -17,7 +17,7 @@ const SideBar = () => {
   const [userCount, setUserCount] = useState(0);
 
   const menus = [
-    { name: "Dashboard", link: "/sidebar", icon: AiOutlineDashboard },
+    { name: "Dashboard", link: "/dashboard", icon: AiOutlineDashboard },
     { name: "Users", link: "/admin/users-dashboard", icon: HiUsers },
     { name: "Pets", link: "/admin-dashboard", icon: MdOutlinePets },
     { name: "Staff", link: "/admin/team-dashboard", icon: GrUserWorker },
@@ -49,22 +49,6 @@ const SideBar = () => {
           </Link>
         ))}
       </nav>
-      {location.pathname === "/sidebar" && (
-        <div className="flex justify-around mt-4">
-          <div className="bg-red-500 text-white p-4 rounded-md">
-            <h2>Nombre d'animaux:</h2>
-            <p>{animalCount}</p>
-          </div>
-          <div className="bg-green-500 text-white p-4 rounded-md">
-            <h2>Nombre d'employés:</h2>
-            <p>{employeeCount}</p>
-          </div>
-          <div className="bg-blue-500 text-white p-4 rounded-md">
-            <h2>Nombre d'utilisateurs:</h2>
-            <p>{userCount}</p>
-          </div>
-        </div>
-      )}
     </>
   );
 };

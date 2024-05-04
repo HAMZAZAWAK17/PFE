@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { axiosClient } from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Reservation = () => {
     const navigate = useNavigate();
@@ -42,12 +43,7 @@ const Reservation = () => {
             }
 
             const response = await axiosClient.get(
-                "http://127.0.0.1:8000/api/user-details",
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
+                "http://127.0.0.1:8000/api/user-details"
             );
             setUserDetails(response.data);
 
@@ -56,7 +52,6 @@ const Reservation = () => {
                 ...prevFormData,
                 user_id: response.data.id,
             }));
-            console.log(formData.id);
         } catch (error) {
             console.error("Error fetching user details:", error);
         }
@@ -114,6 +109,8 @@ const Reservation = () => {
             "http://localhost:8000/api/make-reservation",
             formData
         );
+        toast.success("Demande de reservation effectué avec succés");
+        navigate("/");
         try {
         } catch (error) {
             console.log(error);

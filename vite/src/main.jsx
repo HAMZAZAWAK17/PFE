@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import "typeface-inter";
+import "alpinejs";
 import App from "./App";
 import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
 import { MenuProvider } from "./components/context/context";
@@ -34,6 +36,7 @@ import Profile from "./components/user/Profile";
 import Orders from "./components/user/Orders";
 import Reservations from "./components/user/Reservations";
 import { AuthProvider } from "./components/context/AuthContext";
+import Dashboard from "./components/admin/Dashboard";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -142,6 +145,16 @@ root.render(
                         {/* ---------------------------------------------------- */}
 
                         {/* ------------------- ADMIN ROUTES ------------------- */}
+                        <Route
+                            path="/dashboard"
+                            element={
+                                <>
+                                    <SideBar />
+                                    <Dashboard/>
+                                </>
+                            }
+                        />
+
                         <Route
                             path="/admin-dashboard"
                             element={

@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +34,6 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/user-details', [AuthController::class, 'userDetails']);
 Route::get('/user/orders', [AuthController::class, 'getUserOrders']);
 Route::get('/user/reservations', [AuthController::class, 'getUserReservations']);
-
 
 // ---------------------------- Pets ----------------------------
 Route::get('/petlist', [PetController::class, 'index']);
@@ -71,3 +72,11 @@ Route::delete('/delete-reservation/{id}', [ReservationController::class, 'destro
 Route::put('/accept-reservation/{id}', [ReservationController::class, 'AcceptReservation']);
 Route::put('/refuse-reservation/{id}', [ReservationController::class, 'refuseReservation']);
 Route::put('/reset-reservation/{id}', [ReservationController::class, 'reset']);
+
+// ---------------------------- Dashboard ----------------------------
+Route::get('/pet-count', [DashboardController::class, 'getPetCount']);
+Route::get('/user-count', [DashboardController::class, 'getUserCount']);
+Route::get('/team-count', [DashboardController::class, 'getTeamCount']);
+Route::get('/reservation-total', [DashboardController::class, 'getReservationTotalPrice']);
+Route::get('/average-reservation-duration', [DashboardController::class, 'getAvgDuration']);
+Route::get('/order-count', [DashboardController::class, 'getOrderTotal']);
