@@ -80,3 +80,8 @@ Route::get('/team-count', [DashboardController::class, 'getTeamCount']);
 Route::get('/reservation-total', [DashboardController::class, 'getReservationTotalPrice']);
 Route::get('/average-reservation-duration', [DashboardController::class, 'getAvgDuration']);
 Route::get('/order-count', [DashboardController::class, 'getOrderTotal']);
+Route::get('/order-data', [DashboardController::class, 'getOrderData']);
+Route::get('/user-data', [DashboardController::class, 'getUserData']);
+Route::get('/reservation-data', [DashboardController::class, 'getReservationData']);
+Route::get('/sante-data', [DashboardController::class, 'getSanteStatus']);
+Route::get('/orderstatus-data', [DashboardController::class, 'getOrderStatus']);

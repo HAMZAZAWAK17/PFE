@@ -37,6 +37,7 @@ import Orders from "./components/user/Orders";
 import Reservations from "./components/user/Reservations";
 import { AuthProvider } from "./components/context/AuthContext";
 import Dashboard from "./components/admin/Dashboard";
+import AllAnimals from "./components/order/AllAnimals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -101,7 +102,15 @@ root.render(
                             }
                         />
                         {/* --------------------------------------------------- */}
-
+                        <Route
+                            path="/all-animals"
+                            element={
+                                <>
+                                    <Navbar />
+                                    <AllAnimals/>
+                                </>
+                            }
+                        />
                         {/* ------------------- AUTH ROUTES ------------------- */}
                         <Route
                             path="/signup"
@@ -150,7 +159,7 @@ root.render(
                             element={
                                 <>
                                     <SideBar />
-                                    <Dashboard/>
+                                    <Dashboard />
                                 </>
                             }
                         />

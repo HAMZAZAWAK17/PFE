@@ -137,7 +137,6 @@ const TeamDashboard = () => {
                                 <th className="border px-4 py-2">Actions</th>
                             </tr>
                         </thead>
-
                         <tbody>
                             {team.map((member) => (
                                 <tr key={member.id}>
@@ -170,51 +169,53 @@ const TeamDashboard = () => {
                                     <td className="border px-4 py-2">
                                         <button
                                             className="bg-red-500 hover:bg-red-600 text-white ml-7 px-2 py-1 rounded"
-                                            onClick={() =>
-                                                setPopup(true)
-                                            }
+                                            onClick={() => setPopup(true)}
                                         >
                                             Supprimer
                                         </button>
                                         {popup && (
-                                                <div
-                                                    id="ModelContainer"
-                                                    onClick={handleClosePopUp}
-                                                    className="fixed inset-0 bg-black flex justify-center items-center bg-opacity-20 backdrop-blur-sm"
-                                                >
-                                                    <div className="p-2 bg-white w-10/12 md:w-1/2 lg:1/3 shadow-inner border-e-emerald-600 rounded-lg py-5">
-                                                        <div className="w-full p-3 justify-center items-center">
-                                                            <h2 className="font-semibold py-3 text-center text-xl">
-                                                                Voulez vous
-                                                                vraiment
-                                                                supprimer cet
-                                                                élément
-                                                            </h2>
-                                                            <p className="w-full text-center py-5">Cet action est défintive</p>
-                                                            <div className="flex justify-center">
-                                                                <button
-                                                                    className="bg-red-700 mr-10 text-white p-2 rounded-md right-0"
-                                                                    onClick={() =>
-                                                                        deleteMember(member.id)
-                                                                    }
-                                                                >
-                                                                    Supprimer
-                                                                </button>
-                                                                <button
-                                                                    className="bg-slate-900 text-white p-2 rounded-md right-0"
-                                                                    onClick={() =>
-                                                                        setPopup(
-                                                                            false
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    Annuler
-                                                                </button>
-                                                            </div>
+                                            <div
+                                                id="ModelContainer"
+                                                onClick={handleClosePopUp}
+                                                className="fixed inset-0 bg-black flex justify-center items-center bg-opacity-20 backdrop-blur-sm"
+                                            >
+                                                <div className="p-2 bg-white w-10/12 md:w-1/2 lg:1/3 shadow-inner border-e-emerald-600 rounded-lg py-5">
+                                                    <div className="w-full p-3 justify-center items-center">
+                                                        <h2 className="font-semibold py-3 text-center text-xl">
+                                                            Voulez vous vraiment
+                                                            supprimer cet
+                                                            élément
+                                                        </h2>
+                                                        <p className="w-full text-center py-5">
+                                                            Cet action est
+                                                            défintive
+                                                        </p>
+                                                        <div className="flex justify-center">
+                                                            <button
+                                                                className="bg-red-700 mr-10 text-white p-2 rounded-md right-0"
+                                                                onClick={() =>
+                                                                    deleteMember(
+                                                                        member.id
+                                                                    )
+                                                                }
+                                                            >
+                                                                Supprimer
+                                                            </button>
+                                                            <button
+                                                                className="bg-slate-900 text-white p-2 rounded-md right-0"
+                                                                onClick={() =>
+                                                                    setPopup(
+                                                                        false
+                                                                    )
+                                                                }
+                                                            >
+                                                                Annuler
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            )}
+                                            </div>
+                                        )}
                                         <button className="ml-4 bg-emerald-400 hover:bg-orange-500 px-2 py-1 rounded text-white">
                                             <Link
                                                 to={`/admin/details-member/${member.id}`}

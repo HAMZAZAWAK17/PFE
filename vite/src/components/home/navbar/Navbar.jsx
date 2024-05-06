@@ -13,7 +13,7 @@ export const navItems = [
     },
     {
         title: "Adopter maintenant",
-        href: "/pets",
+        href: "/all-animals",
     },
     {
         title: "Contact",

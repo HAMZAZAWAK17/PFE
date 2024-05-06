@@ -285,7 +285,7 @@ const AddPet = () => {
                             >
                                 Santé:
                             </label>
-                            <input
+                            <select
                                 type="text"
                                 id="sante"
                                 name="sante"
@@ -300,7 +300,15 @@ const AddPet = () => {
                                     },
                                 })}
                                 onBlur={() => trigger("sante")}
-                            />
+                            >
+                                <option value="">
+                                    -------------- Choisissez la condition
+                                    --------------
+                                </option>
+                                <option value="bien">Bien</option>
+                                <option value="normal">Normal</option>
+                                <option value="mal">Mal</option>
+                            </select>
                             {errors.sante && (
                                 <span className="text-red-500 text-sm">
                                     {errors.sante.message}

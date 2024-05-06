@@ -3,7 +3,7 @@ import axios from "axios";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { axiosClient } from "../api/axios";
-import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const Animals = () => {
@@ -115,10 +115,9 @@ const Animals = () => {
             </div>
             <div className="text-center mt-8">
                 <button
-                    onClick={toggleShowMore}
                     className="bg-amber-400 hover:bg-amber-500 text-white py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
                 >
-                    {showMore ? "Show Less" : "Show More"}
+                    <Link to={"/all-animals"}>Voir Tout</Link>
                 </button>
             </div>
         </div>
