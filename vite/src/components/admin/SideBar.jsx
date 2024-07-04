@@ -8,11 +8,9 @@ import { ImExit } from "react-icons/im";
 import { AiFillFund } from "react-icons/ai";
 import { FaHotel } from "react-icons/fa";
 
-
-const SideBar = () => {
+const SideBar = ({ animalCount }) => {
   const [hoveredMenu, setHoveredMenu] = useState(null);
   const location = useLocation();
-  const [animalCount, setAnimalCount] = useState(0);
   const [employeeCount, setEmployeeCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
 

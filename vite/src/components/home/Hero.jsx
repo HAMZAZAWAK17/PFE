@@ -33,7 +33,7 @@ const Hero = () => {
 
     return (
         <div className="flex">
-            <div className="ml-28 w-96 mt-40">
+            <div className="ml-28 w-96 mt-40 h-44"> {/* Fixer la hauteur pour éviter les mouvements */}
                 <h1 className="text-4xl text-slate-800 mb-8 font-bold select-none">
                     Explorez nos adorables <br /> compagnons à adopter.{" "}
                     <span ref={typedRef}></span>

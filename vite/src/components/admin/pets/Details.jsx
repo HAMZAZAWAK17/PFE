@@ -61,6 +61,7 @@ const Details = () => {
     age: 0,
     sante: "",
   });
+  const [showImage, setShowImage] = useState(false);
 
   useEffect(() => {
     axiosClient
@@ -73,26 +74,46 @@ const Details = () => {
       });
   }, [petId]);
 
+  const toggleImage = () => {
+    setShowImage(!showImage);
+  };
+
   return (
     <div className="flex justify-center items-center h-screen mt-10">
       <div className="max-w-lg p-8 bg-gray-100 rounded-lg shadow-md">
         {data.photo && (
-          <div>
-            <img src={`http://localhost:8000/storage/${data.photo}`} alt="" />{" "}
+          <div className="rounded-full overflow-hidden w-32 h-32 mx-auto" onClick={toggleImage}>
+            <img
+              src={`http://localhost:8000/storage/${data.photo}`}
+              alt=""
+              className="object-cover w-full h-full cursor-pointer"
+            />
+          </div>
+        )}
+        {showImage && (
+          <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <img
+              src={`http://localhost:8000/storage/${data.photo}`}
+              alt=""
+              className="max-w-full max-h-full"
+              onClick={toggleImage}
+            />
           </div>
         )}
         <div>
-          <h2 className="font-bold text-3xl mt-4">{data.nom}</h2>
-          <p className="mt-2">{data.description}</p>
+        <h2 className="font-bold text-3xl mt-4 text-center" style={{ color: '#ffd401' }}>{data.nom}</h2>
+
+          
           <p><b>Sexe:</b> {data.sexe}</p>
           <p><b>Espece:</b> {data.espece}</p>
           <p><b>Age:</b> {data.age}</p>
           <p><b>Santé:</b> {data.sante}</p>
+          <p className="mt-2 description-wrap"><b>Description:</b>{data.description}</p>
         </div>
       </div>
       <Link
         to="/admin-dashboard"
-        className="absolute top-4 left-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+        className="absolute top-4 left-4 bg-blue-500 hover:bg-blue-600 mt-20 text-white py-2 px-4 rounded"
       >
         Back
       </Link>
@@ -101,3 +122,4 @@ const Details = () => {
 };
 
 export default Details;
+

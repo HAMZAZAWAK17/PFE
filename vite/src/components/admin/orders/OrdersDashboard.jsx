@@ -68,6 +68,7 @@ const OrdersDashboard = () => {
 
         fetchUserDetails();
         GetOrders();
+        console.log(orders);
     }, []);
 
     const AcceptOrder = (orderId) => {

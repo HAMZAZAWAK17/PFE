@@ -20,6 +20,7 @@ const Orders = () => {
             }
         };
         fetchOrders();
+        console.log(orders);
     }, []);
 
     const handleClosePopUp = (e) => {
